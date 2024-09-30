@@ -36,10 +36,11 @@ static uint32_t create_shader(int type, char *file)
 void game_begin()
 {
     float vertices[] = {
-        -0.5f,  0.5f,
-         0.5f,  0.5f,
-         0.5f, -0.5f,
-        -0.5f, -0.5f,
+        //   POS         UV
+        -0.5f,  0.5f, 0.0f, 1.0f,
+         0.5f,  0.5f, 1.0f, 1.0f,
+         0.5f, -0.5f, 1.0f, 0.0f,
+        -0.5f, -0.5f, 0.0f, 0.0f
     };
     glCreateBuffers(1, &vertex_buffer);
     glNamedBufferStorage(vertex_buffer, sizeof(vertices), vertices, 0);
@@ -47,8 +48,10 @@ void game_begin()
     glCreateVertexArrays(1, &vertex_array);
     glBindVertexArray(vertex_array);
     glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer);
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0);
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), 0);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (const void *)(2 * sizeof(float)));
     glEnableVertexAttribArray(0);
+    glEnableVertexAttribArray(1);
 
     uint32_t vertex_shader = create_shader(GL_VERTEX_SHADER, "res/shaders/vertex.glsl");
     uint32_t fragment_shader = create_shader(GL_FRAGMENT_SHADER, "res/shaders/fragment.glsl");
