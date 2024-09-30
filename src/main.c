@@ -94,8 +94,6 @@ int main(int argc, char** argv)
         float elapsed_secs = (float)elapsed_ticks / CLOCKS_PER_SEC;
         old_ticks = new_ticks;
 
-        printf("delta_time = %f\n", elapsed_secs);
-
         game_update(elapsed_secs);
 
         glfwSwapBuffers(mainWindow);
