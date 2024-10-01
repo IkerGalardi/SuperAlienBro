@@ -14,6 +14,6 @@ uniform vec2 u_tilemap_render;
 
 void main()
 {
-    vec2 tilemap_uv = (v_uv / u_tilemap_size) + u_tilemap_render;
+    vec2 tilemap_uv = v_uv / u_tilemap_size + u_tilemap_render / u_tilemap_size;
     o_fragment = texture(u_character_tilemap, tilemap_uv);
 } 
