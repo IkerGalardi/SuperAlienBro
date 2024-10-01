@@ -13,6 +13,8 @@ float elapsed = 0.0f;
 unsigned int vertex_array;
 unsigned int vertex_buffer;
 unsigned int shader_program;
+int shader_tilemap_size_location;
+int shader_tilemap_render_location;
 unsigned int character_tilemap;
 
 static uint32_t create_shader(int type, char *file)
@@ -62,6 +64,8 @@ void game_begin()
     glAttachShader(shader_program, fragment_shader);
     glLinkProgram(shader_program);
     glValidateProgram(shader_program);
+    shader_tilemap_size_location = glGetUniformLocation(shader_program, "u_tilemap_size");
+    shader_tilemap_render_location = glGetUniformLocation(shader_program, "u_tilemap_render");
 
     glCreateTextures(GL_TEXTURE_2D, 1, &character_tilemap);
     int width, height, num_channels;
@@ -90,6 +94,9 @@ void game_update(float delta_time)
     glBindTextureUnit(0, character_tilemap);
     glBindVertexArray(vertex_array);
     glUseProgram(shader_program);
+    glUniform2f(shader_tilemap_size_location, 9.0f, 3.0f);
+    glUniform2f(shader_tilemap_render_location, 0.0f, 0.0f);
+
     glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 }
 
