@@ -1,4 +1,4 @@
-CFLAGS=-O2 -march=native -Iext/glad/include -Iext/stb_image/include -Wall -Wextra
+CFLAGS=-O2 -march=native -Iext/glad/include -Iext/stb_image/include -Wall -Wextra -ggdb
 LDFLAGS=-lglfw -lm
 
 OBJ_FILES=bin/main.o \
