@@ -60,6 +60,9 @@ static void APIENTRY gl_debug_output(GLenum source,
 
 int main(int argc, char** argv)
 {
+    UNUSED_PARAMETER(argc);
+    UNUSED_PARAMETER(argv);
+
     if (!glfwInit()) {
         fprintf(stderr, "SuperAlienBro: an error occurred while initializing GLFW\n");
 
