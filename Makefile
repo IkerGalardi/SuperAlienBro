@@ -5,7 +5,8 @@ OBJ_FILES=bin/main.o \
           bin/glad.o \
 		  bin/game.o \
 		  bin/stb_image.o \
-		  bin/tilemap.o
+		  bin/tilemap.o \
+		  bin/animation.o
 
 all: SuperAlienBro
 

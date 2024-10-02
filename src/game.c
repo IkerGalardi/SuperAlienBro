@@ -9,10 +9,13 @@
 #include <stb_image/stb_image.h>
 
 #include "tilemap.h"
+#include "animation.h"
 
 float elapsed = 0.0f;
 
 tilemap character_tilemap;
+
+animation player;
 
 void game_begin()
 {
@@ -22,14 +25,23 @@ void game_begin()
     glClearColor(0.0f, 0.0f, 1.0f, 1.0);
 
     character_tilemap = tilemap_create("res/tilemaps/tilemap-characters_packed.png", 9, 3);
+
+    player = (animation){
+        .tilemap = &character_tilemap,
+        .frames = {
+            (animation_frame){.x = 0, .y = 0},
+            (animation_frame){.x = 1, .y = 0}
+        },
+        .frame_count = 2,
+        .seconds_per_frame = 0.25
+    };
 }
 
 void game_update(float delta_time)
 {
-    elapsed += delta_time;
     glClear(GL_COLOR_BUFFER_BIT);
 
-    tilemap_render(&character_tilemap, 0, 0);
+    animation_render(&player);
 }
 
 void game_end()
