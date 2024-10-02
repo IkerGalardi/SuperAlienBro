@@ -1,0 +1,9 @@
+/home/iquer/Projects/SuperAlienBro/ext/cglm/CMakeFiles/cglm.dir
+/home/iquer/Projects/SuperAlienBro/ext/cglm/CMakeFiles/package.dir
+/home/iquer/Projects/SuperAlienBro/ext/cglm/CMakeFiles/package_source.dir
+/home/iquer/Projects/SuperAlienBro/ext/cglm/CMakeFiles/edit_cache.dir
+/home/iquer/Projects/SuperAlienBro/ext/cglm/CMakeFiles/rebuild_cache.dir
+/home/iquer/Projects/SuperAlienBro/ext/cglm/CMakeFiles/list_install_components.dir
+/home/iquer/Projects/SuperAlienBro/ext/cglm/CMakeFiles/install.dir
+/home/iquer/Projects/SuperAlienBro/ext/cglm/CMakeFiles/install/local.dir
+/home/iquer/Projects/SuperAlienBro/ext/cglm/CMakeFiles/install/strip.dir

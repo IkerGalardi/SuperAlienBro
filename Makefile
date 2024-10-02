@@ -1,4 +1,5 @@
-CFLAGS=-O2 -march=native -Iext/glad/include -Iext/stb_image/include -Wall -Wextra -ggdb
+INCLUDES=-Iext/glad/include -Iext/stb_image/include -Iext/cglm/include
+CFLAGS=-O2 -march=native $(INCLUDES) -Wall -Wextra -ggdb
 LDFLAGS=-lglfw -lm
 
 OBJ_FILES=bin/main.o \
@@ -8,13 +9,15 @@ OBJ_FILES=bin/main.o \
 		  bin/tilemap.o \
 		  bin/animation.o
 
+STATIC_LIBS=bin/libcglm.a
+
 all: SuperAlienBro
 
 run: SuperAlienBro
 	./SuperAlienBro
 
-SuperAlienBro: $(OBJ_FILES)
-	gcc -o SuperAlienBro $(OBJ_FILES) $(CFLAGS) $(LDFLAGS)
+SuperAlienBro: $(OBJ_FILES) $(STATIC_LIBS)
+	gcc -o SuperAlienBro $(OBJ_FILES) $(CFLAGS) $(LDFLAGS) -Lbin/ -lcglm
 
 bin/%.o: src/%.c
 	gcc -c -o $@ $< $(CFLAGS)
@@ -25,5 +28,8 @@ bin/glad.o: ext/glad/src/glad.c
 bin/stb_image.o: ext/stb_image/src/stb_image.c
 	gcc -c -o $@ $< $(CFLAGS)
 
+bin/libcglm.a:
+	sh build-cglm.sh
+
 clean:
-	rm -f $(OBJ_FILES) SuperAlienBro
+	rm -f $(OBJ_FILES) $(STATIC_LIBS) SuperAlienBro
