@@ -15,5 +15,5 @@ void animation_render(animation *animation, mat4 mvp)
 
     double spf = (double)animation->seconds_per_frame;
     size_t i = ((uint64_t)floor(current_time / animation->seconds_per_frame)) % animation->frame_count;
-    tilemap_render(animation->tilemap, animation->frames[i].x, animation->frames[i].y, mvp);
+    tileset_render(animation->tileset, animation->frames[i].x, animation->frames[i].y, mvp);
 }

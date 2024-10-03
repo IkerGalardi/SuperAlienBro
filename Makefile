@@ -6,7 +6,7 @@ OBJ_FILES=bin/main.o \
           bin/glad.o \
 		  bin/game.o \
 		  bin/stb_image.o \
-		  bin/tilemap.o \
+		  bin/tileset.o \
 		  bin/animation.o
 
 STATIC_LIBS=bin/libcglm.a

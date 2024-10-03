@@ -1,4 +1,4 @@
-#include "tilemap.h"
+#include "tileset.h"
 
 #include <stdio.h>
 #include <assert.h>
@@ -29,24 +29,24 @@ static uint32_t create_shader(int type, char *file)
     return shader;
 }
 
-tilemap tilemap_create(const char *path, uint8_t x_tile_count, uint8_t y_tile_count)
+tileset tileset_create(const char *path, uint8_t x_tile_count, uint8_t y_tile_count)
 {
-    tilemap result;
+    tileset result;
     result.x_tile_count = x_tile_count;
     result.y_tile_count = y_tile_count;
 
-    glCreateTextures(GL_TEXTURE_2D, 1, &result.tilemap_texture);
+    glCreateTextures(GL_TEXTURE_2D, 1, &result.tileset_texture);
     int width, height, num_channels;
     unsigned char *texture = stbi_load(path, &width, &height, &num_channels, 4);
     assert((width > 0 && height > 0 && texture != NULL));
-    glTextureStorage2D(result.tilemap_texture, 1, GL_RGBA32F, width, height);
-    glTextureSubImage2D(result.tilemap_texture, 0, 0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, texture);
-    glTextureParameteri(result.tilemap_texture, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTextureParameteri(result.tilemap_texture, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glTextureParameteri(result.tilemap_texture, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
-    glTextureParameteri(result.tilemap_texture, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+    glTextureStorage2D(result.tileset_texture, 1, GL_RGBA32F, width, height);
+    glTextureSubImage2D(result.tileset_texture, 0, 0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, texture);
+    glTextureParameteri(result.tileset_texture, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTextureParameteri(result.tileset_texture, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTextureParameteri(result.tileset_texture, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+    glTextureParameteri(result.tileset_texture, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
     float border_color[] = { 0.0f, 0.0f, 0.0f, 0.0f };
-    glTextureParameterfv(result.tilemap_texture, GL_TEXTURE_BORDER_COLOR, border_color);
+    glTextureParameterfv(result.tileset_texture, GL_TEXTURE_BORDER_COLOR, border_color);
 
     float width_in_game = floor((float)width / (float)x_tile_count);
     float height_in_game = floor((float)height / (float)y_tile_count);
@@ -69,8 +69,8 @@ tilemap tilemap_create(const char *path, uint8_t x_tile_count, uint8_t y_tile_co
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
 
-    uint32_t vertex_shader = create_shader(GL_VERTEX_SHADER, "res/shaders/tilemap.vert.glsl");
-    uint32_t fragment_shader = create_shader(GL_FRAGMENT_SHADER, "res/shaders/tilemap.frag.glsl");
+    uint32_t vertex_shader = create_shader(GL_VERTEX_SHADER, "res/shaders/tileset.vert.glsl");
+    uint32_t fragment_shader = create_shader(GL_FRAGMENT_SHADER, "res/shaders/tileset.frag.glsl");
     result.shader_program = glCreateProgram();
     glAttachShader(result.shader_program, vertex_shader);
     glAttachShader(result.shader_program, fragment_shader);
@@ -80,25 +80,25 @@ tilemap tilemap_create(const char *path, uint8_t x_tile_count, uint8_t y_tile_co
     return result;
 }
 
-void tilemap_delete(tilemap *tilemap)
+void tileset_delete(tileset *tileset)
 {
     /// TODO: Do actual cleanup of all the OpenGL resources
-    UNUSED_PARAMETER(tilemap);
+    UNUSED_PARAMETER(tileset);
 }
 
-void tilemap_render(tilemap *tilemap, uint8_t tile_x, uint8_t tile_y, mat4 mvp)
+void tileset_render(tileset *tileset, uint8_t tile_x, uint8_t tile_y, mat4 mvp)
 {
-    glBindTextureUnit(0, tilemap->tilemap_texture);
-    glBindVertexArray(tilemap->vertex_array);
-    glUseProgram(tilemap->shader_program);
+    glBindTextureUnit(0, tileset->tileset_texture);
+    glBindVertexArray(tileset->vertex_array);
+    glUseProgram(tileset->shader_program);
 
-    int size_location = glGetUniformLocation(tilemap->shader_program, "u_tilemap_size");
-    int render_location = glGetUniformLocation(tilemap->shader_program, "u_tilemap_render");
+    int size_location = glGetUniformLocation(tileset->shader_program, "u_tileset_size");
+    int render_location = glGetUniformLocation(tileset->shader_program, "u_tileset_render");
     assert((size_location != -1 && render_location != -1));
-    glUniform2f(size_location, (float)tilemap->x_tile_count, (float)tilemap->y_tile_count);
+    glUniform2f(size_location, (float)tileset->x_tile_count, (float)tileset->y_tile_count);
     glUniform2f(render_location, (float)tile_x, (float)tile_y);
 
-    int mvp_location = glGetUniformLocation(tilemap->shader_program, "u_mvp");
+    int mvp_location = glGetUniformLocation(tileset->shader_program, "u_mvp");
     assert((mvp_location != -1));
     glUniformMatrix4fv(mvp_location, 1, GL_FALSE, mvp[0]);
 

@@ -9,12 +9,12 @@
 #include <stb_image/stb_image.h>
 #include <cglm/cglm.h>
 
-#include "tilemap.h"
+#include "tileset.h"
 #include "animation.h"
 
 float elapsed = 0.0f;
 
-tilemap character_tilemap;
+tileset character_tileset;
 
 animation player;
 
@@ -25,10 +25,10 @@ void game_begin()
 
     glClearColor(0.0f, 0.0f, 1.0f, 1.0);
 
-    character_tilemap = tilemap_create("res/tilemaps/tilemap-characters_packed.png", 9, 3);
+    character_tileset = tileset_create("res/tilesets/characters.png", 9, 3);
 
     player = (animation){
-        .tilemap = &character_tilemap,
+        .tileset = &character_tileset,
         .frames = {
             (animation_frame){.x = 0, .y = 0},
             (animation_frame){.x = 1, .y = 0}

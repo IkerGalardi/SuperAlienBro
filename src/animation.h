@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include <stddef.h>
 
-#include "tilemap.h"
+#include "tileset.h"
 
 typedef struct
 {
@@ -13,7 +13,7 @@ typedef struct
 
 typedef struct
 {
-    tilemap *tilemap;
+    tileset *tileset;
 
     animation_frame frames[5];
     size_t frame_count;
