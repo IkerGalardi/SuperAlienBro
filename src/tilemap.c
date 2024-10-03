@@ -35,12 +35,28 @@ tilemap tilemap_create(const char *path, uint8_t x_tile_count, uint8_t y_tile_co
     result.x_tile_count = x_tile_count;
     result.y_tile_count = y_tile_count;
 
+    glCreateTextures(GL_TEXTURE_2D, 1, &result.tilemap_texture);
+    int width, height, num_channels;
+    unsigned char *texture = stbi_load(path, &width, &height, &num_channels, 4);
+    assert((width > 0 && height > 0 && texture != NULL));
+    glTextureStorage2D(result.tilemap_texture, 1, GL_RGBA32F, width, height);
+    glTextureSubImage2D(result.tilemap_texture, 0, 0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, texture);
+    glTextureParameteri(result.tilemap_texture, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTextureParameteri(result.tilemap_texture, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTextureParameteri(result.tilemap_texture, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+    glTextureParameteri(result.tilemap_texture, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+    float border_color[] = { 0.0f, 0.0f, 0.0f, 0.0f };
+    glTextureParameterfv(result.tilemap_texture, GL_TEXTURE_BORDER_COLOR, border_color);
+
+    float width_in_game = floor((float)width / (float)x_tile_count);
+    float height_in_game = floor((float)height / (float)y_tile_count);
+
     float vertices[] = {
         //   POS         UV
-        -0.5f,  0.5f, 0.0f, 0.0f,
-         0.5f,  0.5f, 1.0f, 0.0f,
-         0.5f, -0.5f, 1.0f, 1.0f,
-        -0.5f, -0.5f, 0.0f, 1.0f
+        -width_in_game/2,  height_in_game/2, 0.0f, 0.0f,
+         width_in_game/2,  height_in_game/2, 1.0f, 0.0f,
+         width_in_game/2, -height_in_game/2, 1.0f, 1.0f,
+        -width_in_game/2, -height_in_game/2, 0.0f, 1.0f
     };
     glCreateBuffers(1, &result.vertex_buffer);
     glNamedBufferStorage(result.vertex_buffer, sizeof(vertices), vertices, 0);
@@ -61,19 +77,6 @@ tilemap tilemap_create(const char *path, uint8_t x_tile_count, uint8_t y_tile_co
     glLinkProgram(result.shader_program);
     glValidateProgram(result.shader_program);
 
-    glCreateTextures(GL_TEXTURE_2D, 1, &result.tilemap_texture);
-    int width, height, num_channels;
-    unsigned char *texture = stbi_load(path, &width, &height, &num_channels, 4);
-    assert((width > 0 && height > 0 && texture != NULL));
-    glTextureStorage2D(result.tilemap_texture, 1, GL_RGBA32F, width, height);
-    glTextureSubImage2D(result.tilemap_texture, 0, 0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, texture);
-    glTextureParameteri(result.tilemap_texture, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTextureParameteri(result.tilemap_texture, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glTextureParameteri(result.tilemap_texture, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
-    glTextureParameteri(result.tilemap_texture, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
-    float border_color[] = { 0.0f, 0.0f, 0.0f, 0.0f };
-    glTextureParameterfv(result.tilemap_texture, GL_TEXTURE_BORDER_COLOR, border_color);
-
     return result;
 }
 
@@ -83,7 +86,7 @@ void tilemap_delete(tilemap *tilemap)
     UNUSED_PARAMETER(tilemap);
 }
 
-void tilemap_render(tilemap *tilemap, uint8_t x, uint8_t y)
+void tilemap_render(tilemap *tilemap, uint8_t tile_x, uint8_t tile_y, mat4 mvp)
 {
     glBindTextureUnit(0, tilemap->tilemap_texture);
     glBindVertexArray(tilemap->vertex_array);
@@ -93,7 +96,11 @@ void tilemap_render(tilemap *tilemap, uint8_t x, uint8_t y)
     int render_location = glGetUniformLocation(tilemap->shader_program, "u_tilemap_render");
     assert((size_location != -1 && render_location != -1));
     glUniform2f(size_location, (float)tilemap->x_tile_count, (float)tilemap->y_tile_count);
-    glUniform2f(render_location, (float)x, (float)y);
+    glUniform2f(render_location, (float)tile_x, (float)tile_y);
+
+    int mvp_location = glGetUniformLocation(tilemap->shader_program, "u_mvp");
+    assert((mvp_location != -1));
+    glUniformMatrix4fv(mvp_location, 1, GL_FALSE, mvp[0]);
 
     glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 }

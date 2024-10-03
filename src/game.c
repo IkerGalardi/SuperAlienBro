@@ -7,6 +7,7 @@
 
 #include <glad/glad.h>
 #include <stb_image/stb_image.h>
+#include <cglm/cglm.h>
 
 #include "tilemap.h"
 #include "animation.h"
@@ -41,7 +42,12 @@ void game_update(float delta_time)
 {
     glClear(GL_COLOR_BUFFER_BIT);
 
-    animation_render(&player);
+    /// NOTE: Top/Right has been selected as the background sprite is 72 pixels high and the screen
+    ///       is a square. This way is easier to scale the sprites inside the game and avoid mixels.
+    mat4 proj_matrix;
+    glm_ortho(-72/2, 72/2, -72/2, 72/2, 0.1, 100.0f, proj_matrix);
+
+    animation_render(&player, proj_matrix);
 }
 
 void game_end()

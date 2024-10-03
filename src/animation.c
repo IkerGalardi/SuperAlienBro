@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <assert.h>
 
-void animation_render(animation *animation)
+void animation_render(animation *animation, mat4 mvp)
 {
     /// NOTE: before using uint64_t and doubles this system used simple floats and ints. But frames
     ///       in the animation did not advance accordingly due to precision errors.
@@ -15,5 +15,5 @@ void animation_render(animation *animation)
 
     double spf = (double)animation->seconds_per_frame;
     size_t i = ((uint64_t)floor(current_time / animation->seconds_per_frame)) % animation->frame_count;
-    tilemap_render(animation->tilemap, animation->frames[i].x, animation->frames[i].y);
+    tilemap_render(animation->tilemap, animation->frames[i].x, animation->frames[i].y, mvp);
 }
