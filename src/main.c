@@ -71,6 +71,7 @@ int main(int argc, char** argv)
     }
 
     glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, true);
+    glfwWindowHint(GLFW_RESIZABLE, false);
 
     GLFWwindow *mainWindow = glfwCreateWindow(1000, 1000, "Super Alien Bro", NULL, NULL);
     if (mainWindow == NULL) {
