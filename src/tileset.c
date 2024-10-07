@@ -50,6 +50,11 @@ tileset tileset_create(const char *path, uint8_t x_tile_count, uint8_t y_tile_co
 
     float width_in_game = floor((float)width / (float)x_tile_count);
     float height_in_game = floor((float)height / (float)y_tile_count);
+    result.in_game_width = width_in_game;
+    result.in_game_height = height_in_game;
+
+    printf("Tileset: loaded %s, width=%d, height=%d, width_ingame=%lf, height_ingame=%lf\n", path,
+           width, height, width_in_game, height_in_game);
 
     float vertices[] = {
         //   POS         UV

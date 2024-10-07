@@ -13,6 +13,8 @@ typedef struct
     uint8_t y_tile_count;
     uint32_t vertex_array;
     uint32_t vertex_buffer;
+    float in_game_width;
+    float in_game_height;
 } tileset;
 
 tileset tileset_create(const char *path, uint8_t x_tile_count, uint8_t y_tile_count);

@@ -3,11 +3,12 @@ CFLAGS=-O2 -march=native $(INCLUDES) -Wall -Wextra -ggdb
 LDFLAGS=-lglfw -lm
 
 OBJ_FILES=bin/main.o \
-          bin/glad.o \
+		  bin/glad.o \
 		  bin/game.o \
 		  bin/stb_image.o \
 		  bin/tileset.o \
-		  bin/animation.o
+		  bin/animation.o \
+		  bin/globals.o
 
 STATIC_LIBS=bin/libcglm.a
 
