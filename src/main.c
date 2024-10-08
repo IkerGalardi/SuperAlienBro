@@ -81,6 +81,8 @@ int main(int argc, char** argv)
         return 1;
     }
 
+    srand(time(NULL));
+
     glfwMakeContextCurrent(mainWindow);
     gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 

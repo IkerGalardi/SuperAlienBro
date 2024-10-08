@@ -42,7 +42,8 @@ void game_begin()
         .seconds_per_frame = 0.25
     };
 
-    level_background = (background){.tileset = &background_tileset};
+    size_t variations[] = {0, 1};
+    level_background = background_create(&background_tileset, variations, 2);
 
     /// NOTE: Top/Right has been selected as the background sprite is 72 pixels high and the screen
     ///       is a square. This way is easier to scale the sprites inside the game and avoid mixels.
