@@ -8,7 +8,8 @@ OBJ_FILES=bin/main.o \
 		  bin/stb_image.o \
 		  bin/tileset.o \
 		  bin/animation.o \
-		  bin/globals.o
+		  bin/globals.o \
+		  bin/background.o
 
 STATIC_LIBS=bin/libcglm.a
 

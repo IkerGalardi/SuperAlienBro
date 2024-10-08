@@ -12,12 +12,14 @@
 #include "tileset.h"
 #include "animation.h"
 #include "globals.h"
+#include "background.h"
 
 float elapsed = 0.0f;
 
 tileset character_tileset;
 tileset background_tileset;
 
+background level_background;
 animation player;
 
 void game_begin()
@@ -40,6 +42,8 @@ void game_begin()
         .seconds_per_frame = 0.25
     };
 
+    level_background = (background){.tileset = &background_tileset};
+
     /// NOTE: Top/Right has been selected as the background sprite is 72 pixels high and the screen
     ///       is a square. This way is easier to scale the sprites inside the game and avoid mixels.
     glm_ortho(-72/2, 72/2, -72/2, 72/2, 0.1, 100.0f, projection_matrix);
@@ -49,7 +53,7 @@ void game_update(float delta_time)
 {
     glClear(GL_COLOR_BUFFER_BIT);
 
-    tileset_render(&background_tileset, 3, 0, projection_matrix);
+    background_render(&level_background);
     animation_render(&player, projection_matrix);
 }
 
