@@ -1,5 +1,5 @@
 INCLUDES=-Iext/glad/include -Iext/stb_image/include -Iext/cglm/include
-CFLAGS=-O2 -march=native $(INCLUDES) -Wall -Wextra -ggdb
+CFLAGS=-march=native $(INCLUDES) -Wall -Wextra -ggdb
 LDFLAGS=-lglfw -lm
 
 OBJ_FILES=bin/main.o \
@@ -9,7 +9,8 @@ OBJ_FILES=bin/main.o \
 		  bin/tileset.o \
 		  bin/animation.o \
 		  bin/globals.o \
-		  bin/background.o
+		  bin/background.o \
+		  bin/level.o
 
 STATIC_LIBS=bin/libcglm.a
 
