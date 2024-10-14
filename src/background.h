@@ -6,6 +6,8 @@
 
 #include "tileset.h"
 
+#define CONFIG_BACKGROUND_NUM_HORIZONTAL_TILES 7
+
 typedef struct
 {
     tileset *tileset;
