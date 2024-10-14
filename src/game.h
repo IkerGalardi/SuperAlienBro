@@ -1,8 +1,8 @@
 #ifndef GAME_H
 #define GAME_H
 
-#define GAME_WIDTH  1000
-#define GAME_HEIGHT 1000
+#define GAME_WIDTH  800
+#define GAME_HEIGHT 800
 #define GAME_TITLE  "Super Alien Boy"
 
 void game_begin();
