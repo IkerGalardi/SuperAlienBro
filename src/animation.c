@@ -13,7 +13,6 @@ void animation_render(animation *animation, mat4 mvp)
     assert((timespec_get(&timespec, TIME_UTC)));
     double current_time = timespec.tv_sec + ((double)timespec.tv_nsec / (double)1000000000);
 
-    double spf = (double)animation->seconds_per_frame;
     size_t i = ((uint64_t)floor(current_time / animation->seconds_per_frame)) % animation->frame_count;
     tileset_render(animation->tileset, animation->frames[i].x, animation->frames[i].y, mvp);
 }

@@ -63,7 +63,14 @@ void game_update(float delta_time)
 
     background_render(&level_background);
     level_render(&first_level);
-    animation_render(&player, projection_matrix);
+
+    vec3 player_pos = {0.0, -93, 0.0};
+    mat4 translation;
+    glm_mat4_identity(translation);
+    glm_translate(translation, player_pos);
+    mat4 mvp;
+    glm_mul(projection_matrix, translation, mvp);
+    animation_render(&player, mvp);
 }
 
 void game_end()

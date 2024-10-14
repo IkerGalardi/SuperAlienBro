@@ -5,7 +5,7 @@
 
 #include "tileset.h"
 
-#define LEVEL_CONFIG_WORLD_POSITION {0.0, 0.0, 0.0}
+#define LEVEL_CONFIG_WORLD_POSITION {-130.0, -150.0, 0.0}
 
 typedef enum
 {

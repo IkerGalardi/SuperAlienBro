@@ -141,9 +141,12 @@ void level_render(level *level)
     int tile_size = level->tileset->in_game_height;
     for (size_t y =  0; y < level->height; y++) {
         for (size_t x = 0; x < level->width; x++) {
+            if (level->level[x + y * level->width] == TILE_TYPE_AIR) {
+                continue;
+            }
+
             float x_pos = (float)x;
             float y_pos = (float)(level->height - y);
-            //printf("%c", tile_type_to_character(level->level[x + y * level->width]));
             vec3 tile_position = {x_pos * tile_size, y_pos * tile_size, 0.0};
             vec3 world_offset = LEVEL_CONFIG_WORLD_POSITION;
             glm_vec3_add(tile_position, world_offset, tile_position);
@@ -160,6 +163,5 @@ void level_render(level *level)
 
             tileset_render(level->tileset, tile_x, tile_y, mvp);
         }
-        //printf("\n");
     }
 }
