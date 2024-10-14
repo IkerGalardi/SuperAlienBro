@@ -5,6 +5,9 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+#include "globals.h"
+#include "common.h"
+
 static level_tile_type map_letter_to_tile_type(char letter)
 {
     int variation = rand() % 2;
@@ -21,6 +24,23 @@ static level_tile_type map_letter_to_tile_type(char letter)
         default:
             printf("Level: letter %c found which does not correspond to any tile\n", letter);
             return TILE_TYPE_AIR;
+    }
+}
+
+static char tile_type_to_character(level_tile_type letter)
+{
+    switch (letter) {
+        case TILE_TYPE_AIR:          return 'a';
+        case TILE_TYPE_GRASS_MIDDLE: return 'g';
+        case TILE_TYPE_GRASS_TOP:    return 'G';
+        case TILE_TYPE_BLOCK:        return 'B';
+        case TILE_TYPE_MISTERY_BOX:  return 'm';
+        case TILE_TYPE_BRICK:        return 'b';
+        case TILE_TYPE_TUBE_BODY:    return 't';
+        case TILE_TYPE_TUBE_TOP:     return 't';
+        case TILE_TYPE_DECORATION0:
+        case TILE_TYPE_DECORATION1:  return 'd';
+        default:                     return 'a';
     }
 }
 
@@ -50,7 +70,7 @@ static void tile_type_to_index(level_tile_type type, size_t *x, size_t *y)
     #undef CASE
 }
 
-level level_create(const char *path)
+level level_create(const char *path, tileset *tileset)
 {
     FILE *f = fopen(path, "r");
     assert((f != NULL));
@@ -86,6 +106,8 @@ level level_create(const char *path)
     result.height = map_height;
     result.width = map_width;
     result.level = malloc(map_width * map_height * sizeof(level_tile_type));
+    result.tileset = tileset;
+
 
     size_t i_level = 0;
     for (size_t i = 0; i < file_size; i++) {
@@ -106,5 +128,37 @@ level level_create(const char *path)
         }
     }
 
+    printf("Level: Loaded %zux%zu map\n", result.width, result.height);
+
     return result;
+}
+
+void level_render(level *level)
+{
+    assert((level->tileset->in_game_height == level->tileset->in_game_width));
+
+    int tile_size = level->tileset->in_game_height;
+    for (size_t y =  0; y < level->height; y++) {
+        for (size_t x = 0; x < level->width; x++) {
+            float x_pos = (float)x;
+            float y_pos = (float)(level->height - y);
+            //printf("%c", tile_type_to_character(level->level[x + y * level->width]));
+            vec3 tile_position = {x_pos * tile_size, y_pos * tile_size, 0.0};
+            vec3 world_offset = LEVEL_CONFIG_WORLD_POSITION;
+            glm_vec3_add(tile_position, world_offset, tile_position);
+
+            mat4 translation;
+            glm_mat4_identity(translation);
+            glm_translate(translation, tile_position);
+            mat4 mvp;
+            glm_mul(projection_matrix, translation, mvp);
+
+            size_t tile_x, tile_y;
+            level_tile_type tile_type = level->level[x + y * level->width];
+            tile_type_to_index(level->level[x + y * level->width], &tile_x, &tile_y);
+
+            tileset_render(level->tileset, tile_x, tile_y, mvp);
+        }
+        //printf("\n");
+    }
 }

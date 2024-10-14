@@ -5,6 +5,8 @@
 
 #include "tileset.h"
 
+#define LEVEL_CONFIG_WORLD_POSITION {0.0, 0.0, 0.0}
+
 typedef enum
 {
     TILE_TYPE_AIR,
@@ -26,8 +28,12 @@ typedef struct
     level_tile_type *level;
     size_t width;
     size_t height;
+
+    tileset *tileset;
 } level;
 
-level level_create(const char *path);
+level level_create(const char *path, tileset *tileset);
+
+void level_render(level *level);
 
 #endif // LEVEL_H
