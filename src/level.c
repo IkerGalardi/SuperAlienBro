@@ -137,6 +137,7 @@ void level_render(level *level)
 {
     assert((level->tileset->in_game_height == level->tileset->in_game_width));
 
+    /// TODO: do actual batch rendering, this is unoptimal.
     int tile_size = level->tileset->in_game_height;
     for (size_t y =  0; y < level->height; y++) {
         for (size_t x = 0; x < level->width; x++) {

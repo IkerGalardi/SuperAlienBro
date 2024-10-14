@@ -27,6 +27,7 @@ void background_render(background *background)
     float tile_width = background->tileset->in_game_width;
     float tile_height = background->tileset->in_game_height;
 
+    /// TODO: do actual batch rendering, this is unoptimal.
     mat4 translation;
     mat4 mvp;
     for (int y = 0; y < CONFIG_BACKGROUND_NUM_EXTRA_TILES; y++) {
