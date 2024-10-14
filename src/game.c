@@ -34,7 +34,7 @@ void game_begin()
     glClearColor(0.0f, 0.0f, 1.0f, 1.0);
 
     character_tileset = tileset_create("res/tilesets/characters.png", 9, 3);
-    background_tileset = tileset_create("res/tilesets/backgrounds.png", 4, 1);
+    background_tileset = tileset_create("res/tilesets/backgrounds.png", 4, 3);
     level_tileset = tileset_create("res/tilesets/scene.png", 20, 9);
 
     player = (animation){
