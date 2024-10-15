@@ -3,6 +3,8 @@
 A small and simple super mario bros game copy in order to apply what I've learnt with the
 [OpenGL Programming Guide](http://www.opengl-redbook.com/) book.
 
+![](doc/screenshot0.png)
+
 ## How to build
 
 In order to build this project you will need to install the next dependencies for your linux
