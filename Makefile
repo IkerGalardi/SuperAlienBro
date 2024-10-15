@@ -10,7 +10,8 @@ OBJ_FILES=bin/main.o \
 		  bin/animation.o \
 		  bin/globals.o \
 		  bin/background.o \
-		  bin/level.o
+		  bin/level.o \
+		  bin/common.o
 
 STATIC_LIBS=bin/libcglm.a
 

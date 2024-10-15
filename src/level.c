@@ -159,11 +159,8 @@ void level_render(level *level)
             vec3 world_offset = LEVEL_CONFIG_WORLD_POSITION;
             glm_vec3_add(tile_position, world_offset, tile_position);
 
-            mat4 translation;
-            glm_mat4_identity(translation);
-            glm_translate(translation, tile_position);
             mat4 mvp;
-            glm_mul(projection_matrix, translation, mvp);
+            calculate_mvp(tile_position, mvp);
 
             size_t tile_x, tile_y;
             level_tile_type tile_type = level->level[x + y * level->width];

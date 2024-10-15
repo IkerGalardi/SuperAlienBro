@@ -14,6 +14,7 @@
 #include "globals.h"
 #include "background.h"
 #include "level.h"
+#include "common.h"
 
 float elapsed = 0.0f;
 
@@ -65,11 +66,8 @@ void game_update(float delta_time)
     level_render(&first_level);
 
     vec3 player_pos = {0.0, -75, 0.0};
-    mat4 translation;
-    glm_mat4_identity(translation);
-    glm_translate(translation, player_pos);
     mat4 mvp;
-    glm_mul(projection_matrix, translation, mvp);
+    calculate_mvp(player_pos, mvp);
     animation_render(&player, mvp);
 }
 

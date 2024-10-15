@@ -6,6 +6,7 @@
 #include <cglm/cglm.h>
 
 #include "globals.h"
+#include "common.h"
 
 background background_create(tileset *tileset, size_t *variations, size_t variation_count)
 {
@@ -28,15 +29,12 @@ void background_render(background *background)
     float tile_height = background->tileset->in_game_height;
 
     /// TODO: do actual batch rendering, this is unoptimal.
-    mat4 translation;
     mat4 mvp;
     for (int y = 0; y < CONFIG_BACKGROUND_NUM_EXTRA_TILES; y++) {
         for (int x = 0; x < CONFIG_BACKGROUND_NUM_HORIZONTAL_TILES; x++) {
             int x_pos = tile_width * x - 3 * tile_width;
             int y_pos = tile_height * y;
-            glm_mat4_identity(translation);
-            glm_translate(translation, (vec3){x_pos, y_pos, 0.0});
-            glm_mul(projection_matrix, translation, mvp);
+            calculate_mvp((vec3){x_pos, y_pos, 0.0}, mvp);
             tileset_render(background->tileset, 0, 0, mvp);
         }
     }
@@ -44,17 +42,13 @@ void background_render(background *background)
         for (int x = 0; x < CONFIG_BACKGROUND_NUM_HORIZONTAL_TILES; x++) {
             int x_pos = tile_width * x - 3 * tile_width;
             int y_pos = tile_height * y;
-            glm_mat4_identity(translation);
-            glm_translate(translation, (vec3){x_pos, -y_pos, 0.0});
-            glm_mul(projection_matrix, translation, mvp);
+            calculate_mvp((vec3){x_pos, -y_pos, 0.0}, mvp);
             tileset_render(background->tileset, 0, 2, mvp);
         }
     }
     for (int i = 0; i < CONFIG_BACKGROUND_NUM_HORIZONTAL_TILES; i++) {
         int x = tile_width * i - 3 * tile_width;
-        glm_mat4_identity(translation);
-        glm_translate(translation, (vec3){x, 0.0, 0.0});
-        glm_mul(projection_matrix, translation, mvp);
+        calculate_mvp((vec3){x, 0.0, 0.0}, mvp);
         tileset_render(background->tileset, 0, 1, mvp);
     }
 }
