@@ -9,6 +9,7 @@
 
 #include "game.h"
 #include "common.h"
+#include "globals.h"
 
 const char *gl_severity_to_string(GLenum severity)
 {
@@ -73,8 +74,8 @@ int main(int argc, char** argv)
     glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, true);
     glfwWindowHint(GLFW_RESIZABLE, false);
 
-    GLFWwindow *mainWindow = glfwCreateWindow(GAME_WIDTH, GAME_HEIGHT, "Super Alien Bro", NULL, NULL);
-    if (mainWindow == NULL) {
+    game_window = glfwCreateWindow(GAME_WIDTH, GAME_HEIGHT, "Super Alien Bro", NULL, NULL);
+    if (game_window == NULL) {
         fprintf(stderr, "Could not create an OpenGL window\n");
 
         glfwTerminate();
@@ -83,7 +84,7 @@ int main(int argc, char** argv)
 
     srand(time(NULL));
 
-    glfwMakeContextCurrent(mainWindow);
+    glfwMakeContextCurrent(game_window);
     gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 
     glEnable(GL_DEBUG_OUTPUT);
@@ -94,7 +95,7 @@ int main(int argc, char** argv)
     game_begin();
 
     clock_t old_ticks = clock();
-    while (!glfwWindowShouldClose(mainWindow)) {
+    while (!glfwWindowShouldClose(game_window)) {
         clock_t new_ticks = clock();
         clock_t elapsed_ticks = new_ticks - old_ticks;
         float elapsed_secs = (float)elapsed_ticks / CLOCKS_PER_SEC;
@@ -102,7 +103,7 @@ int main(int argc, char** argv)
 
         game_update(elapsed_secs);
 
-        glfwSwapBuffers(mainWindow);
+        glfwSwapBuffers(game_window);
         glfwPollEvents();
     }
 
