@@ -69,6 +69,8 @@ void game_update(float delta_time)
     mat4 mvp;
     calculate_mvp(player_pos, mvp);
     animation_render(&player, mvp);
+
+    camera_position[0] = player_pos[0];
 }
 
 void game_end()
