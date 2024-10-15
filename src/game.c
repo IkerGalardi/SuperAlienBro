@@ -8,6 +8,7 @@
 #include <glad/glad.h>
 #include <stb_image/stb_image.h>
 #include <cglm/cglm.h>
+#include <GLFW/glfw3.h>
 
 #include "tileset.h"
 #include "animation.h"
@@ -23,7 +24,11 @@ tileset background_tileset;
 tileset level_tileset;
 
 background level_background;
+
+vec3 player_pos;
 animation player;
+float player_horizontal_speed = 500.0f;
+float player_vertical_speed = 10.0f;
 
 level first_level;
 
@@ -56,6 +61,10 @@ void game_begin()
     /// NOTE: Top/Right has been selected as the background sprite is 270 pixels high and the screen
     ///       is a square. This way is easier to scale the sprites inside the game and avoid mixels.
     glm_ortho(-270/2, 270/2, -270/2, 270/2, 0.1, 100.0f, projection_matrix);
+
+    player_pos[0] = 0.0f;
+    player_pos[1] = -75.0f;
+    player_pos[3] = 0.0f;
 }
 
 void game_update(float delta_time)
@@ -65,7 +74,12 @@ void game_update(float delta_time)
     background_render(&level_background);
     level_render(&first_level);
 
-    vec3 player_pos = {0.0, -75, 0.0};
+    if (glfwGetKey(game_window, GLFW_KEY_A) == GLFW_PRESS) {
+        player_pos[0] -= player_horizontal_speed * delta_time;
+    } else if (glfwGetKey(game_window, GLFW_KEY_D) == GLFW_PRESS) {
+        player_pos[0] += player_horizontal_speed * delta_time;
+    }
+
     mat4 mvp;
     calculate_mvp(player_pos, mvp);
     animation_render(&player, mvp);
