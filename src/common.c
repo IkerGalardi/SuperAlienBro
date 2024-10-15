@@ -19,3 +19,12 @@ void calculate_mvp(vec3 pos, mat4 out)
 
     glm_mul(projection_matrix, translation, out);
 }
+
+void calculate_mvp_without_camera(vec3 pos, mat4 out)
+{
+    mat4 translation;
+    glm_mat4_identity(translation);
+    glm_translate(translation, pos);
+
+    glm_mul(projection_matrix, translation, out);
+}

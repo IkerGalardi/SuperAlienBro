@@ -34,7 +34,7 @@ void background_render(background *background)
         for (int x = 0; x < CONFIG_BACKGROUND_NUM_HORIZONTAL_TILES; x++) {
             int x_pos = tile_width * x - 3 * tile_width;
             int y_pos = tile_height * y;
-            calculate_mvp((vec3){x_pos, y_pos, 0.0}, mvp);
+            calculate_mvp_without_camera((vec3){x_pos, y_pos, 0.0}, mvp);
             tileset_render(background->tileset, 0, 0, mvp, false);
         }
     }
@@ -42,13 +42,13 @@ void background_render(background *background)
         for (int x = 0; x < CONFIG_BACKGROUND_NUM_HORIZONTAL_TILES; x++) {
             int x_pos = tile_width * x - 3 * tile_width;
             int y_pos = tile_height * y;
-            calculate_mvp((vec3){x_pos, -y_pos, 0.0}, mvp);
+            calculate_mvp_without_camera((vec3){x_pos, -y_pos, 0.0}, mvp);
             tileset_render(background->tileset, 0, 2, mvp, false);
         }
     }
     for (int i = 0; i < CONFIG_BACKGROUND_NUM_HORIZONTAL_TILES; i++) {
         int x = tile_width * i - 3 * tile_width;
-        calculate_mvp((vec3){x, 0.0, 0.0}, mvp);
+        calculate_mvp_without_camera((vec3){x, 0.0, 0.0}, mvp);
         tileset_render(background->tileset, 0, 1, mvp, false);
     }
 }
