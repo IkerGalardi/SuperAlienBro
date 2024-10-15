@@ -21,6 +21,6 @@ typedef struct
     double seconds_per_frame;
 } animation;
 
-void animation_render(animation *animation, mat4 mvp);
+void animation_render(animation *animation, mat4 mvp, bool h_flip);
 
 #endif // ANIMATION_H

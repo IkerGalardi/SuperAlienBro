@@ -91,7 +91,7 @@ void tileset_delete(tileset *tileset)
     UNUSED_PARAMETER(tileset);
 }
 
-void tileset_render(tileset *tileset, uint8_t tile_x, uint8_t tile_y, mat4 mvp)
+void tileset_render(tileset *tileset, uint8_t tile_x, uint8_t tile_y, mat4 mvp, bool h_flip)
 {
     glBindTextureUnit(0, tileset->tileset_texture);
     glBindVertexArray(tileset->vertex_array);
@@ -106,6 +106,10 @@ void tileset_render(tileset *tileset, uint8_t tile_x, uint8_t tile_y, mat4 mvp)
     int mvp_location = glGetUniformLocation(tileset->shader_program, "u_mvp");
     assert((mvp_location != -1));
     glUniformMatrix4fv(mvp_location, 1, GL_FALSE, mvp[0]);
+
+    int h_flip_location = glGetUniformLocation(tileset->shader_program, "u_horizontal_flip");
+    assert((h_flip_location != -1));
+    glUniform1i(h_flip_location, h_flip);
 
     glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 }

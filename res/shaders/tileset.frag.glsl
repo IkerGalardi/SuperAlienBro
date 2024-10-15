@@ -9,11 +9,17 @@ out vec4 o_fragment;
 
 
 layout(binding = 0) uniform sampler2D u_character_tileset;
+uniform bool u_horizontal_flip;
 uniform vec2 u_tileset_size;
 uniform vec2 u_tileset_render;
 
 void main()
 {
-    vec2 tileset_uv = v_uv / u_tileset_size + u_tileset_render / u_tileset_size;
+    vec2 uv = v_uv;
+    if (u_horizontal_flip) {
+        uv = vec2(1 - v_uv.x, v_uv.y);
+    }
+
+    vec2 tileset_uv = uv / u_tileset_size + u_tileset_render / u_tileset_size;
     o_fragment = texture(u_character_tileset, tileset_uv);
 } 

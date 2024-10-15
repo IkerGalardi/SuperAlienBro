@@ -29,6 +29,7 @@ vec3 player_pos;
 animation player;
 float player_horizontal_speed = 500.0f;
 float player_vertical_speed = 10.0f;
+bool player_fliped = true;
 
 level first_level;
 
@@ -76,13 +77,15 @@ void game_update(float delta_time)
 
     if (glfwGetKey(game_window, GLFW_KEY_A) == GLFW_PRESS) {
         player_pos[0] -= player_horizontal_speed * delta_time;
+        player_fliped = false;
     } else if (glfwGetKey(game_window, GLFW_KEY_D) == GLFW_PRESS) {
         player_pos[0] += player_horizontal_speed * delta_time;
+        player_fliped = true;
     }
 
     mat4 mvp;
     calculate_mvp(player_pos, mvp);
-    animation_render(&player, mvp);
+    animation_render(&player, mvp, player_fliped);
 
     camera_position[0] = player_pos[0];
 }

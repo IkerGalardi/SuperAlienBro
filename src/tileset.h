@@ -20,6 +20,6 @@ typedef struct
 tileset tileset_create(const char *path, uint8_t x_tile_count, uint8_t y_tile_count);
 void tileset_delete(tileset *tileset);
 
-void tileset_render(tileset *tileset, uint8_t tile_x, uint8_t tile_y, mat4 mvp);
+void tileset_render(tileset *tileset, uint8_t tile_x, uint8_t tile_y, mat4 mvp, bool h_flip);
 
 #endif // tileset_H
