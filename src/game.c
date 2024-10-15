@@ -64,7 +64,7 @@ void game_update(float delta_time)
     background_render(&level_background);
     level_render(&first_level);
 
-    vec3 player_pos = {0.0, -93, 0.0};
+    vec3 player_pos = {0.0, -75, 0.0};
     mat4 translation;
     glm_mat4_identity(translation);
     glm_translate(translation, player_pos);

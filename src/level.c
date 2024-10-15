@@ -10,17 +10,21 @@
 
 static level_tile_type map_letter_to_tile_type(char letter)
 {
-    int variation = rand() % 2;
+    int decoration_variation = rand() % 2;
+    int dirt_variation = rand() % 3;
     switch (letter) {
         case 'a': return TILE_TYPE_AIR;
-        case 'g': return TILE_TYPE_GRASS_MIDDLE;
+        case 'g':
+            if (dirt_variation == 0)      return TILE_TYPE_GRASS_MIDDLE0;
+            else if (dirt_variation == 1) return TILE_TYPE_GRASS_MIDDLE1;
+            else                          return TILE_TYPE_GRASS_MIDDLE2;
         case 'G': return TILE_TYPE_GRASS_TOP;
         case 'B': return TILE_TYPE_BLOCK;
         case 'm': return TILE_TYPE_MISTERY_BOX;
         case 'b': return TILE_TYPE_BRICK;
         case 't': return TILE_TYPE_TUBE_BODY;
         case 'T': return TILE_TYPE_TUBE_TOP;
-        case 'd': return variation == 0 ? TILE_TYPE_DECORATION0 : TILE_TYPE_DECORATION1;
+        case 'd': return decoration_variation == 0 ? TILE_TYPE_DECORATION0 : TILE_TYPE_DECORATION1;
         default:
             printf("Level: letter %c found which does not correspond to any tile\n", letter);
             return TILE_TYPE_AIR;
@@ -30,17 +34,19 @@ static level_tile_type map_letter_to_tile_type(char letter)
 static char tile_type_to_character(level_tile_type letter)
 {
     switch (letter) {
-        case TILE_TYPE_AIR:          return 'a';
-        case TILE_TYPE_GRASS_MIDDLE: return 'g';
-        case TILE_TYPE_GRASS_TOP:    return 'G';
-        case TILE_TYPE_BLOCK:        return 'B';
-        case TILE_TYPE_MISTERY_BOX:  return 'm';
-        case TILE_TYPE_BRICK:        return 'b';
-        case TILE_TYPE_TUBE_BODY:    return 't';
-        case TILE_TYPE_TUBE_TOP:     return 't';
+        case TILE_TYPE_AIR:           return 'a';
+        case TILE_TYPE_GRASS_MIDDLE0:
+        case TILE_TYPE_GRASS_MIDDLE1:
+        case TILE_TYPE_GRASS_MIDDLE2: return 'g';
+        case TILE_TYPE_GRASS_TOP:     return 'G';
+        case TILE_TYPE_BLOCK:         return 'B';
+        case TILE_TYPE_MISTERY_BOX:   return 'm';
+        case TILE_TYPE_BRICK:         return 'b';
+        case TILE_TYPE_TUBE_BODY:     return 't';
+        case TILE_TYPE_TUBE_TOP:      return 't';
         case TILE_TYPE_DECORATION0:
-        case TILE_TYPE_DECORATION1:  return 'd';
-        default:                     return 'a';
+        case TILE_TYPE_DECORATION1:   return 'd';
+        default:                      return 'a';
     }
 }
 
@@ -53,7 +59,9 @@ static void tile_type_to_index(level_tile_type type, size_t *x, size_t *y)
     switch(type) {
         CASE(TILE_TYPE_AIR, 0, 8);
         CASE(TILE_TYPE_GRASS_TOP, 2, 1);
-        CASE(TILE_TYPE_GRASS_MIDDLE, 2, 6);
+        CASE(TILE_TYPE_GRASS_MIDDLE0, 2, 6);
+        CASE(TILE_TYPE_GRASS_MIDDLE1, 4, 0);
+        CASE(TILE_TYPE_GRASS_MIDDLE2, 5, 0);
         CASE(TILE_TYPE_BLOCK, 7, 2);
         CASE(TILE_TYPE_MISTERY_BOX, 10, 0);
         CASE(TILE_TYPE_MISTERY_BOX_USED, 10, 1);
