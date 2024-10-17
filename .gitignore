@@ -1,3 +1,4 @@
 SuperAlienBro
 bin/*.o
 bin/*.a
+.vscode
