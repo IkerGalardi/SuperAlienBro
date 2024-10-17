@@ -3,7 +3,7 @@
 
 #include <stddef.h>
 
-#include "tileset.h"
+#include "gfx/gfx.h"
 
 #define LEVEL_CONFIG_WORLD_POSITION {-130.0, -150.0, 0.0}
 
@@ -31,10 +31,10 @@ typedef struct
     size_t width;
     size_t height;
 
-    tileset *tileset;
+    gfx_tileset *tileset;
 } level;
 
-level level_create(const char *path, tileset *tileset);
+level level_create(const char *path, gfx_tileset *tileset);
 
 void level_render(level *level);
 

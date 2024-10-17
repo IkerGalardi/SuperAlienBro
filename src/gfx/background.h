@@ -11,16 +11,16 @@
 
 typedef struct
 {
-    tileset *tileset;
+    gfx_tileset *tileset;
 
     size_t variations[5];
     size_t variation_count;
 
     size_t _present_variations[3];
-} background;
+} gfx_background;
 
-background background_create(tileset *tileset, size_t *variations, size_t variation_count);
+gfx_background gfx_create_background(gfx_tileset *tileset, size_t *variations, size_t variation_count);
 
-void background_render(background *background);
+void gfx_render_background(gfx_background *background);
 
 #endif // BACKGROUND_H

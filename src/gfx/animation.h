@@ -9,18 +9,18 @@
 typedef struct
 {
     uint8_t x, y;
-} animation_frame;
+} gfx_animation_frame;
 
 typedef struct
 {
-    tileset *tileset;
+    gfx_tileset *tileset;
 
-    animation_frame frames[5];
+    gfx_animation_frame frames[5];
     size_t frame_count;
 
     double seconds_per_frame;
-} animation;
+} gfx_animation;
 
-void animation_render(animation *animation, mat4 mvp, bool h_flip);
+void gfx_render_animation(gfx_animation *animation, mat4 mvp, bool h_flip);
 
 #endif // ANIMATION_H

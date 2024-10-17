@@ -8,9 +8,9 @@
 #include "globals.h"
 #include "common.h"
 
-background background_create(tileset *tileset, size_t *variations, size_t variation_count)
+gfx_background gfx_create_background(gfx_tileset *tileset, size_t *variations, size_t variation_count)
 {
-    background result;
+    gfx_background result;
 
     result.tileset = tileset;
     memcpy(result.variations, variations, sizeof(size_t) * variation_count);
@@ -23,7 +23,7 @@ background background_create(tileset *tileset, size_t *variations, size_t variat
     return result;
 }
 
-void background_render(background *background)
+void gfx_render_background(gfx_background *background)
 {
     float tile_width = background->tileset->in_game_width;
     float tile_height = background->tileset->in_game_height;
@@ -35,7 +35,7 @@ void background_render(background *background)
             int x_pos = tile_width * x - 3 * tile_width;
             int y_pos = tile_height * y;
             calculate_mvp_without_camera((vec3){x_pos, y_pos, 0.0}, mvp);
-            tileset_render(background->tileset, 0, 0, mvp, false);
+            gfx_render_tile(background->tileset, 0, 0, mvp, false);
         }
     }
     for (int y = 0; y < CONFIG_BACKGROUND_NUM_EXTRA_TILES; y++) {
@@ -43,12 +43,12 @@ void background_render(background *background)
             int x_pos = tile_width * x - 3 * tile_width;
             int y_pos = tile_height * y;
             calculate_mvp_without_camera((vec3){x_pos, -y_pos, 0.0}, mvp);
-            tileset_render(background->tileset, 0, 2, mvp, false);
+            gfx_render_tile(background->tileset, 0, 2, mvp, false);
         }
     }
     for (int i = 0; i < CONFIG_BACKGROUND_NUM_HORIZONTAL_TILES; i++) {
         int x = tile_width * i - 3 * tile_width;
         calculate_mvp_without_camera((vec3){x, 0.0, 0.0}, mvp);
-        tileset_render(background->tileset, 0, 1, mvp, false);
+        gfx_render_tile(background->tileset, 0, 1, mvp, false);
     }
 }

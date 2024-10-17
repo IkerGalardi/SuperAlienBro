@@ -1,4 +1,4 @@
-INCLUDES=-Iext/glad/include -Iext/stb_image/include -Iext/cglm/include
+INCLUDES=-Isrc/ -Iext/glad/include -Iext/stb_image/include -Iext/cglm/include
 CFLAGS=-march=native $(INCLUDES) -Wall -Wextra -ggdb
 LDFLAGS=-lglfw -lm
 
@@ -24,6 +24,9 @@ SuperAlienBro: $(OBJ_FILES) $(STATIC_LIBS)
 	gcc -o SuperAlienBro $(OBJ_FILES) $(CFLAGS) $(LDFLAGS) -Lbin/ -lcglm
 
 bin/%.o: src/%.c
+	gcc -c -o $@ $< $(CFLAGS)
+
+bin/%.o: src/gfx/%.c
 	gcc -c -o $@ $< $(CFLAGS)
 
 bin/glad.o: ext/glad/src/glad.c

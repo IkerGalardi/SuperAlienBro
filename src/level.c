@@ -78,7 +78,7 @@ static void tile_type_to_index(level_tile_type type, size_t *x, size_t *y)
     #undef CASE
 }
 
-level level_create(const char *path, tileset *tileset)
+level level_create(const char *path, gfx_tileset *tileset)
 {
     FILE *f = fopen(path, "r");
     assert((f != NULL));
@@ -166,7 +166,7 @@ void level_render(level *level)
             level_tile_type tile_type = level->level[x + y * level->width];
             tile_type_to_index(level->level[x + y * level->width], &tile_x, &tile_y);
 
-            tileset_render(level->tileset, tile_x, tile_y, mvp, false);
+            gfx_render_tile(level->tileset, tile_x, tile_y, mvp, false);
         }
     }
 }

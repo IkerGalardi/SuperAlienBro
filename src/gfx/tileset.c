@@ -29,9 +29,9 @@ static uint32_t create_shader(int type, char *file)
     return shader;
 }
 
-tileset tileset_create(const char *path, uint8_t x_tile_count, uint8_t y_tile_count)
+gfx_tileset gfx_create_tileset(const char *path, uint8_t x_tile_count, uint8_t y_tile_count)
 {
-    tileset result;
+    gfx_tileset result;
     result.x_tile_count = x_tile_count;
     result.y_tile_count = y_tile_count;
 
@@ -85,13 +85,13 @@ tileset tileset_create(const char *path, uint8_t x_tile_count, uint8_t y_tile_co
     return result;
 }
 
-void tileset_delete(tileset *tileset)
+void gfx_delete_tileset(gfx_tileset *tileset)
 {
     /// TODO: Do actual cleanup of all the OpenGL resources
     UNUSED_PARAMETER(tileset);
 }
 
-void tileset_render(tileset *tileset, uint8_t tile_x, uint8_t tile_y, mat4 mvp, bool h_flip)
+void gfx_render_tile(gfx_tileset *tileset, uint8_t tile_x, uint8_t tile_y, mat4 mvp, bool h_flip)
 {
     glBindTextureUnit(0, tileset->tileset_texture);
     glBindVertexArray(tileset->vertex_array);
