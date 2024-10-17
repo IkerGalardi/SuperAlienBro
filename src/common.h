@@ -5,8 +5,4 @@
 
 #define UNUSED_PARAMETER(x) (void)(x)
 
-void calculate_mvp(vec3 pos, mat4 out);
-
-void calculate_mvp_without_camera(vec3 pos, mat4 out);
-
 #endif // COMMON_H

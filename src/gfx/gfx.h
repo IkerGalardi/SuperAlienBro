@@ -8,7 +8,6 @@
 typedef struct 
 {
     uint32_t tileset_texture;
-    uint32_t shader_program;
     uint8_t x_tile_count;
     uint8_t y_tile_count;
     uint32_t vertex_array;
@@ -44,6 +43,25 @@ typedef struct
 } gfx_background;
 
 /**
+ * @brief Initializes renderer internal structures and sets the projection matrix 
+ *
+ * @param proj_matrix projection matrix used by the camera.
+ */
+void gfx_initialize(mat4 proj_matrix);
+
+/**
+ * @brief Function to be called when the frame starts, prepares the renderer for drawing. 
+ *
+ * @param camera_position position of the camera in the world
+ */
+void gfx_begin_frame(vec2 camera_position);
+
+/**
+ * @brief Function to be called when the frame ends 
+ */
+void gfx_end_frame();
+
+/**
  * @brief Creates all the necessary resources to render tiles from a tileset file. 
  * 
  * Its important to `gfx_delete_tileset` when the tileset is no longer in use in order to save up
@@ -72,7 +90,18 @@ void gfx_delete_tileset(gfx_tileset *tileset);
  * @param mvp model view projection matrix used to transform the object
  * @param h_flip true in order to flip in the x axis, false otherwise
  */
-void gfx_render_tile(gfx_tileset *tileset, uint8_t tile_x, uint8_t tile_y, mat4 mvp, bool h_flip);
+void gfx_render_tile(gfx_tileset *tileset, uint8_t tile_x, uint8_t tile_y, vec2 pos, bool h_flip);
+
+/**
+ * @brief Renders a tile in the tileset without taking into account the camera position.
+ * 
+ * @param tileset tileset to be rendered
+ * @param tile_x position of the tile in the X axis
+ * @param tile_y position of the tile in the Y axis
+ * @param mvp model view projection matrix used to transform the object
+ * @param h_flip true in order to flip in the x axis, false otherwise
+ */
+void gfx_render_tile_camless(gfx_tileset *tileset, uint8_t tile_x, uint8_t tile_y, vec2 pos, bool h_flip);
 
 /**
  * @brief Renders the correct animation frame
@@ -81,7 +110,7 @@ void gfx_render_tile(gfx_tileset *tileset, uint8_t tile_x, uint8_t tile_y, mat4 
  * @param mvp model view projection matrix used to transform the object
  * @param h_flip true in order to flip the x axis, false otherwise
  */
-void gfx_render_animation(gfx_animation *animation, mat4 mvp, bool h_flip);
+void gfx_render_animation(gfx_animation *animation, vec2 pos, bool h_flip);
 
 /**
  * @brief Creates all the necessary resources to render the background 

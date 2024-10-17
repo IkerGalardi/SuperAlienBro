@@ -17,13 +17,15 @@
 
 float elapsed = 0.0f;
 
+vec2 camera_position = {0.0, 0.0};
+
 gfx_tileset character_tileset;
 gfx_tileset background_tileset;
 gfx_tileset level_tileset;
 
 gfx_background level_background;
 
-vec3 player_pos;
+vec2 player_pos;
 gfx_animation player;
 float player_horizontal_speed = 500.0f;
 float player_vertical_speed = 10.0f;
@@ -33,10 +35,12 @@ level first_level;
 
 void game_begin()
 {
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    mat4 proj_matrix;
+    /// NOTE: Top/Right has been selected as the background sprite is 270 pixels high and the screen
+    ///       is a square. This way is easier to scale the sprites inside the game and avoid mixels.
+    glm_ortho(-270/2, 270/2, -270/2, 270/2, 0.1, 100.0f, proj_matrix);
 
-    glClearColor(0.0f, 0.0f, 1.0f, 1.0);
+    gfx_initialize(proj_matrix);
 
     character_tileset = gfx_create_tileset("res/tilesets/characters.png", 9, 3);
     background_tileset = gfx_create_tileset("res/tilesets/backgrounds.png", 4, 3);
@@ -57,18 +61,14 @@ void game_begin()
 
     first_level = level_create("res/level.txt", &level_tileset);
 
-    /// NOTE: Top/Right has been selected as the background sprite is 270 pixels high and the screen
-    ///       is a square. This way is easier to scale the sprites inside the game and avoid mixels.
-    glm_ortho(-270/2, 270/2, -270/2, 270/2, 0.1, 100.0f, projection_matrix);
 
     player_pos[0] = 0.0f;
     player_pos[1] = -75.0f;
-    player_pos[3] = 0.0f;
 }
 
 void game_update(float delta_time)
 {
-    glClear(GL_COLOR_BUFFER_BIT);
+    gfx_begin_frame(camera_position);
 
     gfx_render_background(&level_background);
     level_render(&first_level);
@@ -81,11 +81,11 @@ void game_update(float delta_time)
         player_fliped = true;
     }
 
-    mat4 mvp;
-    calculate_mvp(player_pos, mvp);
-    gfx_render_animation(&player, mvp, player_fliped);
+    gfx_render_animation(&player, player_pos, player_fliped);
 
     camera_position[0] = player_pos[0];
+
+    gfx_end_frame();
 }
 
 void game_end()

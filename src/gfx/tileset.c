@@ -9,26 +9,6 @@
 
 #include "common.h"
 
-static uint32_t create_shader(int type, char *file)
-{
-    FILE *f = fopen(file, "r");
-    assert((f != NULL));
-    fseek(f, 0, SEEK_END);
-    uint32_t size = ftell(f);
-    fseek(f, 0, SEEK_SET);
-
-    char *source = calloc(size, 1);
-    fread(source, size, 1, f);
-
-    uint32_t shader = glCreateShader(type);
-    glShaderSource(shader, 1, &source, NULL);
-    glCompileShader(shader);
-
-    fclose(f);
-    free(source);
-    return shader;
-}
-
 gfx_tileset gfx_create_tileset(const char *path, uint8_t x_tile_count, uint8_t y_tile_count)
 {
     gfx_tileset result;
@@ -74,14 +54,6 @@ gfx_tileset gfx_create_tileset(const char *path, uint8_t x_tile_count, uint8_t y
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
 
-    uint32_t vertex_shader = create_shader(GL_VERTEX_SHADER, "res/shaders/tileset.vert.glsl");
-    uint32_t fragment_shader = create_shader(GL_FRAGMENT_SHADER, "res/shaders/tileset.frag.glsl");
-    result.shader_program = glCreateProgram();
-    glAttachShader(result.shader_program, vertex_shader);
-    glAttachShader(result.shader_program, fragment_shader);
-    glLinkProgram(result.shader_program);
-    glValidateProgram(result.shader_program);
-
     return result;
 }
 
@@ -89,27 +61,4 @@ void gfx_delete_tileset(gfx_tileset *tileset)
 {
     /// TODO: Do actual cleanup of all the OpenGL resources
     UNUSED_PARAMETER(tileset);
-}
-
-void gfx_render_tile(gfx_tileset *tileset, uint8_t tile_x, uint8_t tile_y, mat4 mvp, bool h_flip)
-{
-    glBindTextureUnit(0, tileset->tileset_texture);
-    glBindVertexArray(tileset->vertex_array);
-    glUseProgram(tileset->shader_program);
-
-    int size_location = glGetUniformLocation(tileset->shader_program, "u_tileset_size");
-    int render_location = glGetUniformLocation(tileset->shader_program, "u_tileset_render");
-    assert((size_location != -1 && render_location != -1));
-    glUniform2f(size_location, (float)tileset->x_tile_count, (float)tileset->y_tile_count);
-    glUniform2f(render_location, (float)tile_x, (float)tile_y);
-
-    int mvp_location = glGetUniformLocation(tileset->shader_program, "u_mvp");
-    assert((mvp_location != -1));
-    glUniformMatrix4fv(mvp_location, 1, GL_FALSE, mvp[0]);
-
-    int h_flip_location = glGetUniformLocation(tileset->shader_program, "u_horizontal_flip");
-    assert((h_flip_location != -1));
-    glUniform1i(h_flip_location, h_flip);
-
-    glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 }

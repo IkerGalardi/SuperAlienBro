@@ -155,18 +155,15 @@ void level_render(level *level)
 
             float x_pos = (float)x;
             float y_pos = (float)(level->height - y);
-            vec3 tile_position = {x_pos * tile_size, y_pos * tile_size, 0.0};
-            vec3 world_offset = LEVEL_CONFIG_WORLD_POSITION;
-            glm_vec3_add(tile_position, world_offset, tile_position);
-
-            mat4 mvp;
-            calculate_mvp(tile_position, mvp);
+            vec2 tile_position = {x_pos * tile_size, y_pos * tile_size};
+            vec2 world_offset = LEVEL_CONFIG_WORLD_POSITION;
+            glm_vec2_add(tile_position, world_offset, tile_position);
 
             size_t tile_x, tile_y;
             level_tile_type tile_type = level->level[x + y * level->width];
             tile_type_to_index(level->level[x + y * level->width], &tile_x, &tile_y);
 
-            gfx_render_tile(level->tileset, tile_x, tile_y, mvp, false);
+            gfx_render_tile(level->tileset, tile_x, tile_y, tile_position, false);
         }
     }
 }

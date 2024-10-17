@@ -11,7 +11,7 @@ OBJ_FILES=bin/main.o \
 		  bin/globals.o \
 		  bin/background.o \
 		  bin/level.o \
-		  bin/common.o
+		  bin/renderer.o
 
 STATIC_LIBS=bin/libcglm.a
 
