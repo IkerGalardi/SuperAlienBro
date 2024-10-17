@@ -1,4 +1,4 @@
-#include "tileset.h"
+#include "gfx.h"
 
 #include <stdio.h>
 #include <assert.h>

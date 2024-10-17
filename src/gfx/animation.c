@@ -1,4 +1,4 @@
-#include "animation.h"
+#include "gfx.h"
 
 #include <time.h>
 #include <math.h>
