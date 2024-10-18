@@ -68,11 +68,6 @@ void game_begin()
 
 void game_update(float delta_time)
 {
-    gfx_begin_frame(camera_position);
-
-    gfx_render_background(&level_background);
-    level_render(&first_level);
-
     if (glfwGetKey(game_window, GLFW_KEY_A) == GLFW_PRESS) {
         player_pos[0] -= player_horizontal_speed * delta_time;
         player_fliped = false;
@@ -81,10 +76,12 @@ void game_update(float delta_time)
         player_fliped = true;
     }
 
-    gfx_render_animation(&player, player_pos, player_fliped);
-
     camera_position[0] = player_pos[0];
 
+    gfx_begin_frame(camera_position);
+    gfx_render_background(&level_background);
+    level_render(&first_level);
+    gfx_render_animation(&player, player_pos, player_fliped);
     gfx_end_frame();
 }
 
