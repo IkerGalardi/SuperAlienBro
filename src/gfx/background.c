@@ -38,18 +38,18 @@ void gfx_render_background(gfx_background *background)
         for (int x = 0; x < CONFIG_BACKGROUND_NUM_HORIZONTAL_TILES; x++) {
             int x_pos = tile_width * x - 3 * tile_width;
             int y_pos = tile_height * y;
-            gfx_render_tile_camless(background->tileset, 0, 0, (vec2){x_pos, y_pos}, false);
+            gfx_render_tile_cam_fraction(background->tileset, 0, 0, (vec2){x_pos, y_pos}, false, 0.2);
         }
     }
     for (int y = 0; y < CONFIG_BACKGROUND_NUM_EXTRA_TILES; y++) {
         for (int x = 0; x < CONFIG_BACKGROUND_NUM_HORIZONTAL_TILES; x++) {
             int x_pos = tile_width * x - 3 * tile_width;
             int y_pos = tile_height * y;
-            gfx_render_tile_camless(background->tileset, 0, 2, (vec2){x_pos, -y_pos}, false);
+            gfx_render_tile_cam_fraction(background->tileset, 0, 2, (vec2){x_pos, -y_pos}, false, 0.2);
         }
     }
     for (int i = 0; i < CONFIG_BACKGROUND_NUM_HORIZONTAL_TILES; i++) {
         int x = tile_width * i - 3 * tile_width;
-        gfx_render_tile_camless(background->tileset, 0, 1, (vec2){x, 0}, false);
+        gfx_render_tile_cam_fraction(background->tileset, 0, 1, (vec2){x, 0}, false, 0.2);
     }
 }

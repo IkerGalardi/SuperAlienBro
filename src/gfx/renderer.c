@@ -30,13 +30,22 @@ static void calc_mvp(vec2 pos, mat4 out)
     glm_mul(projection_matrix, transform, out);
 }
 
-static void calc_mvp_camless(vec2 pos, mat4 out)
+static void calc_mvp_cam_fraction(vec2 pos, float fraction, mat4 out)
 {
     // Translate to the object position
     vec3 pos3 = {pos[0], pos[1], 0.0};
     mat4 transform;
     glm_mat4_identity(transform);
     glm_translate(transform, pos3);
+
+    // Negativelly translate by the camera position
+    vec3 camera_pos3 = {camera_pos[0] * fraction, camera_pos[1] * fraction, 0.0};
+    vec3 negative_camera_pos;
+    glm_vec3_copy(camera_pos3, negative_camera_pos);
+    negative_camera_pos[0] = -negative_camera_pos[0];
+    negative_camera_pos[1] = -negative_camera_pos[1];
+    negative_camera_pos[2] = -negative_camera_pos[2];
+    glm_translate(transform, negative_camera_pos);
 
     glm_mul(projection_matrix, transform, out);
 }
@@ -132,7 +141,8 @@ void gfx_render_tile(gfx_tileset *tileset, uint8_t tile_x, uint8_t tile_y, vec2 
     glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 }
 
-void gfx_render_tile_camless(gfx_tileset *tileset, uint8_t tile_x, uint8_t tile_y, vec2 pos, bool h_flip)
+void gfx_render_tile_cam_fraction(gfx_tileset *tileset, uint8_t tile_x, uint8_t tile_y, vec2 pos,
+                                  bool h_flip, float fraction)
 {
     assert((initialized == true));
     assert((frame_began == true));
@@ -148,7 +158,7 @@ void gfx_render_tile_camless(gfx_tileset *tileset, uint8_t tile_x, uint8_t tile_
     glUniform2f(render_location, (float)tile_x, (float)tile_y);
 
     mat4 mvp;
-    calc_mvp_camless(pos, mvp);
+    calc_mvp_cam_fraction(pos, fraction, mvp);
 
     int mvp_location = glGetUniformLocation(shader_program, "u_mvp");
     assert((mvp_location != -1));

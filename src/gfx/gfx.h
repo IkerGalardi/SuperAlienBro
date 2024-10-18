@@ -93,15 +93,17 @@ void gfx_delete_tileset(gfx_tileset *tileset);
 void gfx_render_tile(gfx_tileset *tileset, uint8_t tile_x, uint8_t tile_y, vec2 pos, bool h_flip);
 
 /**
- * @brief Renders a tile in the tileset without taking into account the camera position.
+ * @brief Renders a tile in the tileset taking into account a fraction of the camera position.
  * 
  * @param tileset tileset to be rendered
  * @param tile_x position of the tile in the X axis
  * @param tile_y position of the tile in the Y axis
  * @param mvp model view projection matrix used to transform the object
  * @param h_flip true in order to flip in the x axis, false otherwise
+ * @param fraction fraction of the camera position to take into account
  */
-void gfx_render_tile_camless(gfx_tileset *tileset, uint8_t tile_x, uint8_t tile_y, vec2 pos, bool h_flip);
+void gfx_render_tile_cam_fraction(gfx_tileset *tileset, uint8_t tile_x, uint8_t tile_y, vec2 pos,
+                                  bool h_flip, float fraction);
 
 /**
  * @brief Renders the correct animation frame
