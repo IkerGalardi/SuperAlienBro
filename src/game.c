@@ -43,7 +43,7 @@ void game_begin()
     gfx_initialize(proj_matrix);
 
     character_tileset = gfx_create_tileset("res/tilesets/characters.png", 9, 3);
-    background_tileset = gfx_create_tileset("res/tilesets/backgrounds.png", 4, 3);
+    background_tileset = gfx_create_tileset("res/tilesets/backgrounds.png", 8, 3);
     level_tileset = gfx_create_tileset("res/tilesets/scene.png", 20, 9);
 
     player = (gfx_animation){

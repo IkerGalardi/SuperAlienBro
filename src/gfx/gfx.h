@@ -39,7 +39,7 @@ typedef struct
     size_t variations[5];
     size_t variation_count;
 
-    size_t _present_variations[3];
+    size_t *rendered_variations;
 } gfx_background;
 
 /**
