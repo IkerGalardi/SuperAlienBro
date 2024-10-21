@@ -1,26 +1,26 @@
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaeaeaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaamaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabbbbbbbbaaabbbmaaaaaaaaaaaaaamaaaaaaaaaaabbbaaaabmmbaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaBBaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaBBBaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaBBBBaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaamaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaBBBBBaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaamaaabmbmbaaaaaaaaaaaaaaaaaaaaaaaaTaaaaaaaaaaTaaaaaaaaaaaaaaaaaabmbaaaaaaaaaaaaaabaaaaabbaaaamaamaamaaaaabaaaaaaaaaabbaaaaaaBaaBaaaaaaaaaaBBaaBaaaaaaaaaaaabbmbaaaaaaaaaaaaBBBBBBaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaTaaaaaaaataaaaaaaaaataaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaBBaaBBaaaaaaaaBBBaaBBaaaaaaaaaaaaaaaaaaaaaaaaaaBBBBBBBaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaTaaaaaaaaaataaaaaaaataaaaaaaaaataaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaBBBaaBBBaaaaaaBBBBaaBBBaaaaaTaaaaaaaaaaaaaaaTaaBBBBBBBBaaaaaaaafaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaedddaaataaaaaaaaaateddddaaataaaeeaaaaataddddaaaaaaadddaaaaaaaaaaaaaaaddddaaaeeaaaaaaaaaeadddaaeaeaadddaaeaeaeaeaaaBBBBddBBBBaaaaBBBBBaaBBBBdaaataaadddaaaaeaeaataBBBBBBBBBaaaaaaaaBaaaaaaaaaaaaaaaa
-GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGaaGGGGGGGGGGGGGGGaaaGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGaaGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG
-gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggaagggggggggggggggaaaggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggaagggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
-gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggaagggggggggggggggaaaggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggaagggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
+                                                                                                                                                                                                                         
+                                                                                                                                                                                                                         
+                                                                                                                                                                                                                         
+                                                                                  e e                                                                                                                                    
+                      m                                                           bbbbbbbb   bbbm              m           bbb    bmmb                                                        BB                         
+                                                                                                                                                                                             BBB                         
+                                                                                                                                                                                            BBBB                         
+                                                                  m                                                                                                                        BBBBB                         
+                m   bmbmb                        T          T                  bmb              b     bb    m  m  m     b          bb      B  B          BB  B            bbmb            BBBBBB                         
+                                        T        t          t                                                                             BB  BB        BBB  BB                          BBBBBBB                         
+                             T          t        t          t                                                                            BBB  BBB      BBBB  BBB     T               T  BBBBBBBB        f                
+                      eddd   t          tedddd   t   ee     t dddd       ddd               dddd   ee         e ddd  e e  ddd  e e e e   BBBBddBBBB    BBBBB  BBBBd   t   ddd    e e  t BBBBBBBBB        B                
+GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG  GGGGGGGGGGGGGGG   GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG  GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG
+ggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg  ggggggggggggggg   gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg  gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
+ggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg  ggggggggggggggg   gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg  gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
 
-g = grass middle
-G = grass top side
-a = air
-B = Block
-m = mistery box
-e = goomba
-b = brick
-t = tube body
-T = tube top
-d = decoration
+'g' = grass middle
+'G' = grass top side
+' ' = air
+'B' = Block
+'m' = mistery box
+'e' = goomb 
+'b' = brick
+'t' = tube body
+'T' = tube top
+'d' = decoration

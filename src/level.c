@@ -13,7 +13,7 @@ static level_tile_type map_letter_to_tile_type(char letter)
     int decoration_variation = rand() % 3;
     int dirt_variation = rand() % 3;
     switch (letter) {
-        case 'a': return TILE_TYPE_AIR;
+        case ' ': return TILE_TYPE_AIR;
         case 'g':
             if (dirt_variation == 0)      return TILE_TYPE_GRASS_MIDDLE0;
             else if (dirt_variation == 1) return TILE_TYPE_GRASS_MIDDLE1;
