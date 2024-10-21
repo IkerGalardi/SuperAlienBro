@@ -10,7 +10,7 @@
 
 static level_tile_type map_letter_to_tile_type(char letter)
 {
-    int decoration_variation = rand() % 2;
+    int decoration_variation = rand() % 3;
     int dirt_variation = rand() % 3;
     switch (letter) {
         case 'a': return TILE_TYPE_AIR;
@@ -24,7 +24,10 @@ static level_tile_type map_letter_to_tile_type(char letter)
         case 'b': return TILE_TYPE_BRICK;
         case 't': return TILE_TYPE_TUBE_BODY;
         case 'T': return TILE_TYPE_TUBE_TOP;
-        case 'd': return decoration_variation == 0 ? TILE_TYPE_DECORATION0 : TILE_TYPE_DECORATION1;
+        case 'd':
+            if (decoration_variation == 0)      return TILE_TYPE_DECORATION0;
+            else if (decoration_variation == 1) return TILE_TYPE_DECORATION1;
+            else                                return TILE_TYPE_DECORATION2;
         default:
             printf("Level: letter %c found which does not correspond to any tile\n", letter);
             return TILE_TYPE_AIR;
@@ -70,6 +73,7 @@ static void tile_type_to_index(level_tile_type type, size_t *x, size_t *y)
         CASE(TILE_TYPE_TUBE_BODY, 15, 5);
         CASE(TILE_TYPE_DECORATION0, 4, 6);
         CASE(TILE_TYPE_DECORATION1, 5, 6);
+        CASE(TILE_TYPE_DECORATION2, 6, 6);
         default:
             *x = 0;
             *y = 8;

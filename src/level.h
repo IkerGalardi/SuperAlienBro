@@ -22,6 +22,7 @@ typedef enum
     TILE_TYPE_TUBE_BODY,
     TILE_TYPE_DECORATION0,
     TILE_TYPE_DECORATION1,
+    TILE_TYPE_DECORATION2,
     TILE_TYPE_MAX,
 } level_tile_type;
 
