@@ -8,7 +8,7 @@
 #include "globals.h"
 #include "common.h"
 
-#define CONFIG_BACKGROUND_NUM_HORIZONTAL_TILES 7
+#define CONFIG_BACKGROUND_NUM_HORIZONTAL_TILES 44
 #define CONFIG_BACKGROUND_NUM_EXTRA_TILES 7
 
 gfx_background gfx_create_background(gfx_tileset *tileset, size_t *variations, size_t variation_count)
