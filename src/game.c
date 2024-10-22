@@ -31,6 +31,9 @@ float player_horizontal_speed = 500.0f;
 float player_vertical_speed = 10.0f;
 bool player_fliped = true;
 
+vec2 flag_pos;
+gfx_animation flag_anim;
+
 level first_level;
 
 void game_begin()
@@ -61,6 +64,16 @@ void game_begin()
 
     first_level = level_create("res/level.txt", &level_tileset);
 
+    glm_vec2_copy(first_level.flag_pos, flag_pos);
+    flag_anim = (gfx_animation) {
+        .tileset = &level_tileset,
+        .frames = {
+            (gfx_animation_frame){.x = 11, .y = 5},
+            (gfx_animation_frame){.x = 12, .y = 5},
+        },
+        .frame_count = 2,
+        .seconds_per_frame = 0.25
+    };
 
     player_pos[0] = 0.0f;
     player_pos[1] = -75.0f;
@@ -79,9 +92,24 @@ void game_update(float delta_time)
     camera_position[0] = player_pos[0];
 
     gfx_begin_frame(camera_position);
-    gfx_render_background(&level_background);
-    level_render(&first_level);
-    gfx_render_animation(&player, player_pos, player_fliped);
+        gfx_render_background(&level_background);
+
+        level_render(&first_level);
+
+        vec2 pos = {flag_pos[0], flag_pos[1]};
+        gfx_render_tile(&level_tileset, 11, 6, pos, false);
+        pos[1] += level_tileset.in_game_height;
+        gfx_render_tile(&level_tileset, 12, 6, pos, false);
+        pos[1] += level_tileset.in_game_height;
+        gfx_render_tile(&level_tileset, 12, 6, pos, false);
+        pos[1] += level_tileset.in_game_height;
+        gfx_render_tile(&level_tileset, 12, 6, pos, false);
+        pos[1] += level_tileset.in_game_height;
+        gfx_render_tile(&level_tileset, 12, 6, pos, false);
+        pos[1] += level_tileset.in_game_height;
+        gfx_render_animation(&flag_anim, pos, false);
+
+        gfx_render_animation(&player, player_pos, player_fliped);
     gfx_end_frame();
 }
 

@@ -3,6 +3,8 @@
 
 #include <stddef.h>
 
+#include <cglm/cglm.h>
+
 #include "gfx/gfx.h"
 
 #define LEVEL_CONFIG_WORLD_POSITION {-130.0, -150.0}
@@ -33,6 +35,8 @@ typedef struct
     size_t height;
 
     gfx_tileset *tileset;
+
+    vec2 flag_pos;
 } level;
 
 level level_create(const char *path, gfx_tileset *tileset);

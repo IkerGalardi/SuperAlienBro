@@ -8,6 +8,17 @@
 #include "globals.h"
 #include "common.h"
 
+static void position_from_level_index(size_t width, size_t index, float tile_size, vec2 out)
+{
+    assert((width != 0));
+
+    size_t x = index % width;
+    size_t y = index / width;
+    out[0] = x * tile_size;
+    out[1] = y * tile_size;
+    glm_vec2_add(out, (vec2)LEVEL_CONFIG_WORLD_POSITION, out);
+}
+
 static level_tile_type map_letter_to_tile_type(char letter)
 {
     int decoration_variation = rand() % 3;
@@ -132,7 +143,20 @@ level level_create(const char *path, gfx_tileset *tileset)
             continue;
         }
 
-        result.level[i_level] = map_letter_to_tile_type(file_data[i]);
+        if (file_data[i] == 'f') {
+            position_from_level_index(map_width,
+                                      i_level,
+                                      tileset->in_game_width,
+                                      result.flag_pos);
+            /// TODO: remove the hardcode of the flag position and fix the index to position
+            result.flag_pos[0] += 2.0f;
+            result.flag_pos[1] = -60.0f;
+            printf("Level: found flag at position (%f, %f)\n", 
+                   result.flag_pos[0], result.flag_pos[1]);
+        } else {
+            result.level[i_level] = map_letter_to_tile_type(file_data[i]);
+        }
+
 
         i_level++;
         if (i_level >= map_width * map_height) {
