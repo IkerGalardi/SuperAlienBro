@@ -138,7 +138,7 @@ void gfx_render_tile(gfx_tileset *tileset, uint8_t tile_x, uint8_t tile_y, vec2 
     assert((h_flip_location != -1));
     glUniform1i(h_flip_location, h_flip);
 
-    glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
 
 void gfx_render_tile_cam_fraction(gfx_tileset *tileset, uint8_t tile_x, uint8_t tile_y, vec2 pos,
@@ -168,5 +168,5 @@ void gfx_render_tile_cam_fraction(gfx_tileset *tileset, uint8_t tile_x, uint8_t 
     assert((h_flip_location != -1));
     glUniform1i(h_flip_location, h_flip);
 
-    glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }

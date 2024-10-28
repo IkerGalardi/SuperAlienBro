@@ -12,6 +12,7 @@ typedef struct
     uint8_t y_tile_count;
     uint32_t vertex_array;
     uint32_t vertex_buffer;
+    uint32_t index_buffer;
     float in_game_width;
     float in_game_height;
 } gfx_tileset;
