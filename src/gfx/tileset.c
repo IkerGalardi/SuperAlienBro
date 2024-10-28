@@ -63,6 +63,14 @@ gfx_tileset gfx_create_tileset(const char *path, uint8_t x_tile_count, uint8_t y
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
 
+    uint32_t indices[] = {
+        3, 0, 1,
+        1, 2, 3
+    };
+    glCreateBuffers(1, &result.index_buffer);
+    glNamedBufferStorage(result.index_buffer, sizeof(indices), indices, 0);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, result.index_buffer);
+
     return result;
 }
 
