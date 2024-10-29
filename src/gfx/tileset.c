@@ -9,6 +9,12 @@
 
 #include "common.h"
 
+typedef struct
+{
+    vec2 pos;
+    vec2 uv;
+} vertex;
+
 gfx_tileset gfx_create_tileset(const char *path, uint8_t x_tile_count, uint8_t y_tile_count)
 {
     gfx_tileset result;
@@ -36,21 +42,24 @@ gfx_tileset gfx_create_tileset(const char *path, uint8_t x_tile_count, uint8_t y
     printf("Tileset: loaded %s, width=%d, height=%d, width_ingame=%lf, height_ingame=%lf\n", path,
            width, height, width_in_game, height_in_game);
 
-    float vertices[] = {
-        //   POS         UV
-        -width_in_game/2,  height_in_game/2, 0.0f, 0.0f,
-         width_in_game/2,  height_in_game/2, 1.0f, 0.0f,
-         width_in_game/2, -height_in_game/2, 1.0f, 1.0f,
-        -width_in_game/2, -height_in_game/2, 0.0f, 1.0f
-    };
+    vertex vertices[4] = {0};
+    glm_vec2_copy((vec2){-width_in_game/2,  height_in_game/2}, vertices[0].pos);
+    glm_vec2_copy((vec2){0.0f, 0.0f},                          vertices[0].uv);
+    glm_vec2_copy((vec2){ width_in_game/2,  height_in_game/2}, vertices[1].pos);
+    glm_vec2_copy((vec2){1.0f, 0.0f},                          vertices[1].uv);
+    glm_vec2_copy((vec2){ width_in_game/2, -height_in_game/2}, vertices[2].pos);
+    glm_vec2_copy((vec2){1.0f, 1.0f},                          vertices[2].uv);
+    glm_vec2_copy((vec2){-width_in_game/2, -height_in_game/2}, vertices[3].pos);
+    glm_vec2_copy((vec2){0.0f, 1.0f},                          vertices[3].uv);
+
     glCreateBuffers(1, &result.vertex_buffer);
     glNamedBufferStorage(result.vertex_buffer, sizeof(vertices), vertices, 0);
 
     glCreateVertexArrays(1, &result.vertex_array);
     glBindVertexArray(result.vertex_array);
     glBindBuffer(GL_ARRAY_BUFFER, result.vertex_buffer);
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), 0);
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (const void *)(2 * sizeof(float)));
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(vertex), offsetof(vertex, pos));
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(vertex), offsetof(vertex, uv));
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
 
