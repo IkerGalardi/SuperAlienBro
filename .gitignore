@@ -2,3 +2,9 @@ SuperAlienBro
 bin/*.o
 bin/*.a
 .vscode
+ext/cglm/CMakeCache.txt
+ext/cglm/CMakeFiles/
+ext/cglm/CPackConfig.cmake
+ext/cglm/CPackSourceConfig.cmake
+ext/cglm/cglmConfig.cmake
+ext/cglm/cmake_install.cmake
