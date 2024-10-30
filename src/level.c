@@ -130,7 +130,7 @@ level level_create(const char *path, gfx_tileset *tileset)
     result.width = map_width;
     result.level = malloc(map_width * map_height * sizeof(level_tile_type));
     result.tileset = tileset;
-
+    result.num_clouds = 0;
 
     size_t i_level = 0;
     for (size_t i = 0; i < file_size; i++) {
@@ -153,6 +153,15 @@ level level_create(const char *path, gfx_tileset *tileset)
             result.flag_pos[1] = -60.0f;
             printf("Level: found flag at position (%f, %f)\n", 
                    result.flag_pos[0], result.flag_pos[1]);
+        } else if (file_data[i] == 'c') {
+            assert((result.num_clouds < 10));
+            position_from_level_index(map_width,
+                                      i_level,
+                                      tileset->in_game_width,
+                                      result.cloud_pos[result.num_clouds]);
+            printf("Level: found cloud at position (%f, %f)\n",
+                   result.cloud_pos[result.num_clouds][0], result.cloud_pos[result.num_clouds][1]);
+            result.num_clouds++;
         } else {
             result.level[i_level] = map_letter_to_tile_type(file_data[i]);
         }

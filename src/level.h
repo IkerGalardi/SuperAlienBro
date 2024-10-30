@@ -37,6 +37,9 @@ typedef struct
     gfx_tileset *tileset;
 
     vec2 flag_pos;
+
+    size_t num_clouds;
+    vec2 cloud_pos[10];
 } level;
 
 level level_create(const char *path, gfx_tileset *tileset);
