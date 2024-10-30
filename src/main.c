@@ -73,6 +73,9 @@ int main(int argc, char** argv)
 
     glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, true);
     glfwWindowHint(GLFW_RESIZABLE, false);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     game_window = glfwCreateWindow(GAME_WIDTH, GAME_HEIGHT, "Super Alien Bro", NULL, NULL);
     if (game_window == NULL) {
