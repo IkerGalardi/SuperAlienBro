@@ -2,6 +2,17 @@
 
 #include <glad/glad.h>
 
+#define RENDERER_CONFIG_QUADS_PER_BATCH 100000
+
+#define RENDERER_INDEX_BUFFER_COUNT RENDERER_CONFIG_QUADS_PER_BATCH * 6
+#define RENDERER_VERTEX_BUFFER_SIZE RENDERER_CONFIG_QUADS_PER_BATCH * 4 * sizeof(vertex)
+
+typedef struct
+{
+    vec2 pos;
+    vec2 uv;
+} vertex;
+
 static bool initialized = false;
 static bool frame_began = false;
 
@@ -9,6 +20,13 @@ static mat4 projection_matrix;
 static vec2 camera_pos;
 
 static uint32_t shader_program;
+
+static uint32_t vertex_array;
+static uint32_t vertex_buffer;
+static uint32_t index_buffer;
+
+size_t buffer_offset = 0;
+size_t num_indices = 0;
 
 static void calc_mvp(vec2 pos, mat4 out)
 {
@@ -79,13 +97,50 @@ void gfx_initialize(mat4 proj_matrix)
 
     glClearColor(0.0f, 0.0f, 1.0f, 1.0);
 
-    uint32_t vertex_shader = create_shader(GL_VERTEX_SHADER, "res/shaders/tileset.vert.glsl");
-    uint32_t fragment_shader = create_shader(GL_FRAGMENT_SHADER, "res/shaders/tileset.frag.glsl");
+    uint32_t vertex_shader = create_shader(GL_VERTEX_SHADER, "res/shaders/batch.vert.glsl");
+    uint32_t fragment_shader = create_shader(GL_FRAGMENT_SHADER, "res/shaders/batch.frag.glsl");
     shader_program = glCreateProgram();
     glAttachShader(shader_program, vertex_shader);
     glAttachShader(shader_program, fragment_shader);
     glLinkProgram(shader_program);
     glValidateProgram(shader_program);
+
+    // This module is the only one in charge of changing the OpenGL global state. No need
+    // to later
+    glUseProgram(shader_program);
+
+    glCreateBuffers(1, &vertex_buffer);
+    glNamedBufferData(vertex_buffer, RENDERER_VERTEX_BUFFER_SIZE, NULL, GL_DYNAMIC_DRAW);
+
+    uint32_t *indices = malloc(RENDERER_INDEX_BUFFER_COUNT * sizeof(uint32_t));
+    size_t offset = 0;
+    for(size_t i = 0; i < RENDERER_INDEX_BUFFER_COUNT; i += 6) {
+        assert((i + 5 < RENDERER_INDEX_BUFFER_COUNT));
+
+        indices[i + 0] = offset + 3;
+        indices[i + 1] = offset + 0;
+        indices[i + 2] = offset + 1;
+
+        indices[i + 3] = offset + 1;
+        indices[i + 4] = offset + 2;
+        indices[i + 5] = offset + 3;
+
+        offset += 4;
+    }
+
+    glCreateBuffers(1, &index_buffer);
+    glNamedBufferStorage(index_buffer,
+                         RENDERER_INDEX_BUFFER_COUNT * sizeof(uint32_t),
+                         indices,
+                         0);
+
+    glCreateVertexArrays(1, &vertex_array);
+    glBindVertexArray(vertex_array);
+    glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer);
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(vertex), offsetof(vertex, pos));
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(vertex), offsetof(vertex, uv));
+    glEnableVertexAttribArray(0);
+    glEnableVertexAttribArray(1);
 
     glm_mat4_copy(proj_matrix, projection_matrix);
 
@@ -101,6 +156,9 @@ void gfx_begin_frame(vec2 camera_position)
 
     glm_vec2_copy(camera_position, camera_pos);
 
+    num_indices = 0;
+    buffer_offset = 0;
+
     frame_began = true;
 }
 
@@ -109,6 +167,12 @@ void gfx_end_frame()
     assert((initialized == true));
     assert((frame_began == true));
 
+    int location = glGetUniformLocation(shader_program, "projection");
+    assert((location != -1));
+    glUniformMatrix4fv(location, 1, GL_FALSE, projection_matrix[0]);
+
+    glDrawElements(GL_TRIANGLES, num_indices, GL_UNSIGNED_INT, 0);
+
     frame_began = false;
 }
 
@@ -116,29 +180,38 @@ void gfx_render_tile(gfx_tileset *tileset, uint8_t tile_x, uint8_t tile_y, vec2 
 {
     assert((initialized == true));
     assert((frame_began == true));
+    assert((num_indices + 6 < RENDERER_INDEX_BUFFER_COUNT));
 
-    glBindTextureUnit(0, tileset->tileset_texture);
-    glBindVertexArray(tileset->vertex_array);
-    glUseProgram(shader_program);
+    float width_in_game = tileset->in_game_width;
+    float height_in_game = tileset->in_game_height;
 
-    int size_location = glGetUniformLocation(shader_program, "u_tileset_size");
-    int render_location = glGetUniformLocation(shader_program, "u_tileset_render");
-    assert((size_location != -1 && render_location != -1));
-    glUniform2f(size_location, (float)tileset->x_tile_count, (float)tileset->y_tile_count);
-    glUniform2f(render_location, (float)tile_x, (float)tile_y);
+    // Not using this data
+    vertex vertices[4] = {0};
+    glm_vec2_copy((vec2){-width_in_game/3,  height_in_game/3}, vertices[0].pos);
+    glm_vec2_copy((vec2){0.0f, 0.0f},                          vertices[0].uv);
+    glm_vec2_copy((vec2){ width_in_game/3,  height_in_game/3}, vertices[1].pos);
+    glm_vec2_copy((vec2){1.0f, 0.0f},                          vertices[1].uv);
+    glm_vec2_copy((vec2){ width_in_game/3, -height_in_game/3}, vertices[2].pos);
+    glm_vec2_copy((vec2){1.0f, 1.0f},                          vertices[2].uv);
+    glm_vec2_copy((vec2){-width_in_game/3, -height_in_game/3}, vertices[3].pos);
+    glm_vec2_copy((vec2){0.0f, 1.0f},                          vertices[3].uv);
 
-    mat4 mvp;
-    calc_mvp(pos, mvp);
+    // Move the quad into world space
+    glm_vec2_add(vertices[0].pos, pos, vertices[0].pos);
+    glm_vec2_add(vertices[1].pos, pos, vertices[1].pos);
+    glm_vec2_add(vertices[2].pos, pos, vertices[2].pos);
+    glm_vec2_add(vertices[3].pos, pos, vertices[3].pos);
 
-    int mvp_location = glGetUniformLocation(shader_program, "u_mvp");
-    assert((mvp_location != -1));
-    glUniformMatrix4fv(mvp_location, 1, GL_FALSE, mvp[0]);
+    // Move the quad in view space
+    glm_vec2_sub(vertices[0].pos, camera_pos, vertices[0].pos);
+    glm_vec2_sub(vertices[1].pos, camera_pos, vertices[1].pos);
+    glm_vec2_sub(vertices[2].pos, camera_pos, vertices[2].pos);
+    glm_vec2_sub(vertices[3].pos, camera_pos, vertices[3].pos);
 
-    int h_flip_location = glGetUniformLocation(shader_program, "u_horizontal_flip");
-    assert((h_flip_location != -1));
-    glUniform1i(h_flip_location, h_flip);
+    glNamedBufferSubData(vertex_buffer, buffer_offset, sizeof(vertices), vertices);
 
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    buffer_offset += 4 * sizeof(vertex);
+    num_indices += 6;
 }
 
 void gfx_render_tile_cam_fraction(gfx_tileset *tileset, uint8_t tile_x, uint8_t tile_y, vec2 pos,
@@ -146,27 +219,36 @@ void gfx_render_tile_cam_fraction(gfx_tileset *tileset, uint8_t tile_x, uint8_t 
 {
     assert((initialized == true));
     assert((frame_began == true));
+    assert((num_indices + 6 < RENDERER_INDEX_BUFFER_COUNT));
 
-    glBindTextureUnit(0, tileset->tileset_texture);
-    glBindVertexArray(tileset->vertex_array);
-    glUseProgram(shader_program);
+    float width_in_game = tileset->in_game_width;
+    float height_in_game = tileset->in_game_height;
 
-    int size_location = glGetUniformLocation(shader_program, "u_tileset_size");
-    int render_location = glGetUniformLocation(shader_program, "u_tileset_render");
-    assert((size_location != -1 && render_location != -1));
-    glUniform2f(size_location, (float)tileset->x_tile_count, (float)tileset->y_tile_count);
-    glUniform2f(render_location, (float)tile_x, (float)tile_y);
+    vertex vertices[4] = {0};
+    glm_vec2_copy((vec2){-width_in_game/2,  height_in_game/2}, vertices[0].pos);
+    glm_vec2_copy((vec2){0.0f, 0.0f},                          vertices[0].uv);
+    glm_vec2_copy((vec2){ width_in_game/2,  height_in_game/2}, vertices[1].pos);
+    glm_vec2_copy((vec2){1.0f, 0.0f},                          vertices[1].uv);
+    glm_vec2_copy((vec2){ width_in_game/2, -height_in_game/2}, vertices[2].pos);
+    glm_vec2_copy((vec2){1.0f, 1.0f},                          vertices[2].uv);
+    glm_vec2_copy((vec2){-width_in_game/2, -height_in_game/2}, vertices[3].pos);
+    glm_vec2_copy((vec2){0.0f, 1.0f},                          vertices[3].uv);
 
-    mat4 mvp;
-    calc_mvp_cam_fraction(pos, fraction, mvp);
+    // Move the quad into world space
+    glm_vec2_add(vertices[0].pos, pos, vertices[0].pos);
+    glm_vec2_add(vertices[1].pos, pos, vertices[1].pos);
+    glm_vec2_add(vertices[2].pos, pos, vertices[2].pos);
+    glm_vec2_add(vertices[3].pos, pos, vertices[3].pos);
 
-    int mvp_location = glGetUniformLocation(shader_program, "u_mvp");
-    assert((mvp_location != -1));
-    glUniformMatrix4fv(mvp_location, 1, GL_FALSE, mvp[0]);
+    // Move the quad in view space
+    vec2 cam_fraction = {camera_pos[0] * fraction, camera_pos[1] * fraction};
+    glm_vec2_sub(vertices[0].pos, cam_fraction, vertices[0].pos);
+    glm_vec2_sub(vertices[1].pos, cam_fraction, vertices[1].pos);
+    glm_vec2_sub(vertices[2].pos, cam_fraction, vertices[2].pos);
+    glm_vec2_sub(vertices[3].pos, cam_fraction, vertices[3].pos);
 
-    int h_flip_location = glGetUniformLocation(shader_program, "u_horizontal_flip");
-    assert((h_flip_location != -1));
-    glUniform1i(h_flip_location, h_flip);
+    glNamedBufferSubData(vertex_buffer, buffer_offset, sizeof(vertices), vertices);
 
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    buffer_offset += 4 * sizeof(vertex);
+    num_indices += 6;
 }
