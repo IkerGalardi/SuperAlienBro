@@ -27,7 +27,7 @@ gfx_background level_background;
 
 vec2 player_pos;
 gfx_animation player;
-float player_horizontal_speed = 500.0f;
+float player_horizontal_speed = 100.0f;
 float player_vertical_speed = 10.0f;
 bool player_fliped = true;
 
