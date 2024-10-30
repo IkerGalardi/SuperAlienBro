@@ -180,6 +180,7 @@ level level_create(const char *path, gfx_tileset *tileset)
 
 void level_render(level *level)
 {
+    assert((level->tileset != NULL));
     assert((level->tileset->in_game_height == level->tileset->in_game_width));
 
     /// TODO: do actual batch rendering, this is unoptimal.
@@ -202,5 +203,20 @@ void level_render(level *level)
 
             gfx_render_tile(level->tileset, tile_x, tile_y, tile_position, false);
         }
+    }
+
+    for (size_t i = 0; i < level->num_clouds; i++) {
+        vec2 cloud_position;
+        glm_vec2_copy(level->cloud_pos[i], cloud_position);
+        /// TODO: remove this hack
+        glm_vec2_add(cloud_position, (vec2){0.0f, 240.0f}, cloud_position);
+
+        gfx_render_tile_cam_fraction(level->tileset, 13, 7, cloud_position, false, 0.2);
+
+        glm_vec2_add(cloud_position, (vec2){level->tileset->in_game_width, 0.0f}, cloud_position);
+        gfx_render_tile_cam_fraction(level->tileset, 14, 7, cloud_position, false, 0.2);
+
+        glm_vec2_add(cloud_position, (vec2){level->tileset->in_game_width, 0.0f}, cloud_position);
+        gfx_render_tile_cam_fraction(level->tileset, 15, 7, cloud_position, false, 0.2);
     }
 }
