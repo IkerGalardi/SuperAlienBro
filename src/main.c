@@ -97,14 +97,18 @@ int main(int argc, char** argv)
 
     game_begin();
 
-    clock_t old_ticks = clock();
+    /// NOTE: before using uint64_t and doubles this system used simple floats and ints. But frames
+    ///       in the animation did not advance accordingly due to precision errors.
+    struct timespec timespec;
+    assert((timespec_get(&timespec, TIME_UTC)));
+    double old_time = timespec.tv_sec + ((double)timespec.tv_nsec / (double)1000000000);
     while (!glfwWindowShouldClose(game_window)) {
-        clock_t new_ticks = clock();
-        clock_t elapsed_ticks = new_ticks - old_ticks;
-        float elapsed_secs = (float)elapsed_ticks / CLOCKS_PER_SEC;
-        old_ticks = new_ticks;
+        assert((timespec_get(&timespec, TIME_UTC)));
+        double new_time = timespec.tv_sec + ((double)timespec.tv_nsec / (double)1000000000);
+        double elapsed_time = new_time - old_time;
+        old_time = new_time;
 
-        game_update(elapsed_secs);
+        game_update((float)elapsed_time);
 
         glfwSwapBuffers(game_window);
         glfwPollEvents();
